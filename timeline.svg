@@ -13,11 +13,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="timeline.svg"
-   inkscape:export-filename="/home/plehegar/graph2.png"
-   inkscape:export-xdpi="614.63416"
-   inkscape:export-ydpi="614.63416"
-   >
+   sodipodi:docname="timeline.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -316,9 +312,9 @@
          y="1011.9486"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.75px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;stroke-width:1px">FPWD</tspan></text>
     <rect
-       style="fill:#e84040;fill-opacity:1;stroke:none;stroke-width:1.54110348;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#e84040;fill-opacity:1;stroke:none;stroke-width:1.54919326;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4179-5"
-       width="89.0625"
+       width="90"
        height="5"
        x="22.000313"
        y="1032.3622"
