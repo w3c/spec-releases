@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>174 Days to Recommendation</title>
+  <script src="moment.min.js">
+  </script>
+  <script>
+    var moratoriums = [
+      [ "2017-06-26", "2017-06-30" ],
+      [ "2017-08-14", "2017-08-18" ],
+      [ "2017-11-06", "2017-11-10" ],
+      [ "2017-12-18", "2018-01-01" ],
+
+      [ "2018-10-22", "2018-10-26" ]
+    ];
+  </script>
+  <style>
+body {
+		counter-reset: example figure issue;
+
+		/* Layout */
+		max-width: 50em;               /* limit line length to 50em for readability   */
+		margin: 0 auto;                /* center text within page                     */
+		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
+		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag     */
+
+		/* Typography */
+		line-height: 1.5;
+		font-family: sans-serif;
+		widows: 2;
+		orphans: 2;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		hyphens: auto;
+
+		/* Colors */
+		color: black;
+		background: white top left fixed no-repeat;
+		background-size: 25px auto;
+	}
+/** Headings ******************************************************************/
+
+	h1, h2, h3, h4, h5, h6, dt {
+		page-break-after: avoid;
+		page-break-inside: avoid;
+		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
+		font-family: inherit;    /* Inherit the font family. */
+		line-height: 1.2;        /* Keep wrapped headings compact */
+		hyphens: manual;         /* Hyphenated headings look weird */
+	}
+
+	h2, h3, h4, h5, h6 {
+		margin-top: 3rem;
+	}
+
+	h1, h2, h3 {
+		color: #005A9C;
+		background: transparent;
+	}
+
+	h1 { font-size: 170%; }
+	h2 { font-size: 140%; }
+	h3 { font-size: 120%; }
+	h4 { font-weight: bold; }
+	h5 { font-style: italic; }
+	h6 { font-variant: small-caps; }
+	dt { font-weight: bold; }
+
+  /******************************************************************************/
+/*                            Paragraphs and Lists                            */
+/******************************************************************************/
+
+	p {
+		margin: 1em 0;
+	}
+
+	dd > p:first-child,
+	li > p:first-child {
+		margin-top: 0;
+	}
+
+	ul, ol {
+		margin-left: 0;
+		padding-left: 2em;
+	}
+
+	li {
+		margin: 0.25em 0 0.5em;
+		padding: 0;
+	}
+  
+  /** General Hyperlinks ********************************************************/
+
+	/* We hyperlink a lot, so make it less intrusive */
+	a[href] {
+		color: #034575;
+		text-decoration: none;
+		border-bottom: 1px solid #707070;
+		/* Need a bit of extending for it to look okay */
+		padding: 0 1px 0;
+		margin: 0 -1px 0;
+	}
+	a:visited {
+		border-bottom-color: #BBB;
+	}
+
+	/* Use distinguishing colors when user is interacting with the link */
+	a[href]:focus,
+	a[href]:hover {
+		background: #f8f8f8;
+		background: rgba(75%, 75%, 75%, .25);
+		border-bottom-width: 3px;
+		margin-bottom: -2px;
+	}
+	a[href]:active {
+		color: #C00;
+		border-color: #C00;
+	}
+
+    li { margin-top: 1em; list-style-type: none; padding: 0.5ex; }
+    input { margin-left: 2em; margin-top: 1em; }
+    .transition { border:2px solid #ff6600;  }
+    .publication { border:2px solid #0000ff;  }
+    .date { text-align: right; margin-left: 2em;  }
+    #log { background: #ddd; padding: 0.5ex;}
+  </style>
+</head>
+<body>
+  <h1>Milestones</h1>
+  <p>In theory, it takes a minimum of around <a href='https://www.w3.org/2017/Process-20170301/#Reports'>174 days</a> to move a
+  specification to W3C Recommendation, without ongoing exclusion opportunities. Publications can only happen on Tuesdays and Thursdays
+  and outside of publication moratorias. Chairs and team contacts should enjoy their weekends and avoid Saturdays
+  and Sundays for sending transition requests. Publications must be requested 24 hours in advance.</p>
+
+  <ul>
+    <li class='transition' data-day='1' id="to-fpwd">
+      <label><strong>Day 1:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='publication' data-day='7' id='fpwd'>
+      <label><strong>Day 7:</strong> Publication of the <a href='https://www.w3.org/2017/Process-20170301/#first-wd'>First Public Working Draft</a>, start of the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>150 days exclusion</a> opportunity, request for <a href='https://www.w3.org/2017/Process-20170301/#wide-review'>wide and horizontal reviews</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='transition' data-day='90' id="to-cr">
+      <label><strong>Day 90:</strong> <a href='https://www.w3.org/2017/Process-20170301/#wide-review'>Wide and horizontal reviews</a> are done, transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='publication' data-day='97' id='cr'>
+      <label><strong>Day 97:</strong> Publication of the <a href='https://www.w3.org/2017/Process-20170301/#candidate-rec'>Candidate Recommendation</a>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity, start of the <a href='https://www.w3.org/2017/Process-20170301/#ACReviewStart'>Advisory Committee Review</a>, last Working
+      Draft published before that date is the <a href='https://github.com/w3c/charter-drafts/blob/gh-pages/draft-states.md#reference-draft'>Reference Draft</a> for the 150 days exclusion opportunity started earlier.<br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='exact' data-day='125' id='comments'>
+       <label><strong>Day 125:</strong> <a href='https://www.w3.org/2017/Process-20170301/#candidate-rec'>Deadline for comments</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='transition' data-day='132' id="to-pr">
+      <label><strong>Day 132:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=PR'>Proposed Recommendation</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='publication' data-day='139' id='pr'>
+      <label><strong>Day 139:</strong> Publication of the <a href='https://www.w3.org/2017/Process-20170301/#rec-pr'>Proposed Recommendation</a>, deadline for the <a href='https://www.w3.org/2017/Process-20170301/#ACReviewStart'>Advisory Committee Review</a> is set<br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='exact' data-day='157'>
+       <strong>Day 157:</strong> Last day of the <a href='https://www.w3.org/2017/Process-20170301/#rec-pr'>150 and 60 days exclusion opportunities</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='exact' data-day='167' id="ac-review-end">
+       <strong>Day 167:</strong> Last day of the <a href='https://www.w3.org/2017/Process-20170301/#ACReviewAfter'>Advisory Committee Review</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='transition' data-day='168' id="to-rec">
+      <label><strong>Day 168:</strong> transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+    <li class='publication' data-day='174' id='rec'>
+      <label><strong>Day 174:</strong> Publication of the <a href='https://www.w3.org/2017/Process-20170301/#rec-publication'>Recommendation</a><br>
+       <input type="date"/></label> <span class='date'></span>
+    </li>
+  </ul>
+  <pre id='log'></pre>
+  <script>
+  // For debugging
+  var trace = function () {};
+  if (window.location.href.includes("file:")) {
+    trace = function trace(msg) {
+	   console.log(msg);
+   };
+  }
+
+  function log(msg) {
+    var pre = document.getElementById("log");
+    var text = pre.textContent;
+    if (text !== "") {
+      text += "\n";
+    }
+    pre.textContent = text + msg;
+  }
+
+  function clearLog() {
+    var pre = document.getElementById("log");
+    pre.textContent = "";
+  }
+
+  function convertDate(dateInput) {
+    return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
+  }
+
+  // avoid moratoriums
+  function inMoratorium(date, up) {
+    for (var i = 0; i < moratoriums.length; i++) {
+      var range = moratoriums[i];
+      if (date.isBetween(range[0], range[1], null, "[]")) {
+        var newdate;
+        if (up) {
+          newdate = moment(range[1]).add(1, "days");
+        } else {
+          newdate = moment(range[0]).add(-1, "days");
+        }
+        log("Avoiding publication moratorium: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
+        return newdate;
+      }
+    }
+    return date;
+  }
+
+  // avoid Saturdays and Sundays
+  function inWorkWeek(date, up) {
+    var diff = 0;
+    if (up === undefined) up = true;
+    switch (date.day()) {
+      case 0:
+        diff = (up)? 1 : -2;
+        break;
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        // nothing to do
+        break;
+      case 6:
+        diff = (up)? 2 : -1;
+        break;          
+    }
+    if (diff === 0) {
+      return date;
+    } else {
+      var newdate = moment(date).add(diff, "days");
+      log("Avoiding weekends: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
+      return newdate;
+    }
+  }
+
+  // only Tuesdays and Fridays
+  function forPublication(date, up) {
+    var diff = 0;
+    date = inMoratorium(date, up);
+    if (up === undefined) up = true;
+    switch (date.day()) {
+      case 0:
+        diff = (up)? 2 : -3;
+        break;
+      case 1:
+        diff = (up)? 1 : -4;
+        break;
+      case 2:
+        // nothing to do
+        break;
+      case 3:
+        diff = (up)? 1 : -1;
+        break;
+      case 4:
+        // nothing to do
+        break;
+      case 5:
+        diff = (up)? 4 : -1;
+        break;
+      case 6:
+        diff = (up)? 3 : -2;
+        break;          
+    }
+    if (diff === 0) {
+      return date;
+    } else {
+      var newdate = moment(date).add(diff, "days");
+      log("Picking a Tuesday or Thursday: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
+      return newdate;
+    }
+  }
+
+  function isPublication(item) {
+    return item.classList.contains("publication");
+  }
+
+  function isTransition(item) {
+    return item.classList.contains("transition");
+  }
+
+  function updateItem(item, newdate, up) {
+      var input = item.querySelector("input");
+      var span = item.querySelector("span.date");
+      if (isPublication(item)) {
+        newdate = forPublication(newdate, up);
+      } else if (isTransition(item)) {
+        newdate = inWorkWeek(newdate, up);
+      }
+      if (input !== null) input.value = newdate.format("YYYY-MM-DD");
+      span.textContent = newdate.format("dddd, MMMM D YYYY");
+      span.momentDate = newdate;
+  }
+  function adjustDate(item, refItem, up) {
+      var span = refItem.querySelector("span.date");
+      var refItemDate = moment(span.momentDate);
+      var diff = item.dataset.day - refItem.dataset.day;
+      updateItem(item, refItemDate.add(diff, "days"), up);
+  }
+
+  function adjustDates(refInput) {
+    var item = refInput.parentNode.parentNode;
+    // adjust the reference date
+    var d;
+    if (refInput.value === "") {
+        return;
+    } else {
+      d = convertDate(refInput.value);
+      if (!d.isValid()) {
+        console.log("*ERROR* Invalid date!");
+        return;
+      }
+    }
+    clearLog();
+    updateItem(item, d, true);
+    onpushstate(item);
+    
+    // adjust the previous milestones
+    var currentItem  = item;
+    var previousItem = item.previousElementSibling;
+    while (previousItem !== null) {
+      adjustDate(previousItem, currentItem, false);
+      currentItem = previousItem;
+      previousItem = previousItem.previousElementSibling;
+    }
+    // adjust the following milestones
+    currentItem  = item;
+    var nextItem = item.nextElementSibling;
+    while (nextItem !== null) {
+      adjustDate(nextItem, currentItem, true);
+      currentItem = nextItem;
+      nextItem = nextItem.nextElementSibling;
+    }
+  }
+
+
+  var disableChange = false;
+  function changeInput(e) {
+    if (disableChange) return;
+    disableChange = true;
+    adjustDates(e.target);
+    disableChange = false;
+  }
+
+  var nodes = document.querySelectorAll("input");
+	for (var i = 0; i < nodes.length; i++) {
+		nodes[i].onchange=changeInput;
+	}
+
+   // browser history status push
+	 function onpushstate(item) {
+     var date = item.querySelector("span.date").momentDate;
+     if (date !== undefined) {
+  		 var query = "?" + item.id + "=" + date.format("YYYY-MM-DD");
+       window.history.pushState({ id : item.id, date: date.format("YYYY-MM-DD") }, item.id, query);
+	  	 trace("pushed " +window.location.href);
+     }
+   }
+
+   // browser back and forward buttons
+   window.onpopstate = function (e) {
+		 var input = document.getElementById(e.state.id).querySelector("input");
+     input.value = e.state.date;
+     changeInput({ target: input });
+  	 trace("popped " +window.location.href);
+   }
+
+  // initialization
+	 
+	 // #lazyweb
+	 function getJsonFromUrl() {
+     var query = location.search.substr(1);
+     var result = {};
+     query.split("&").forEach(function(part) {
+      var item = part.split("=");
+      result[item[0]] = decodeURIComponent(item[1]);
+     });
+    return result;
+  }
+  var init  = getJsonFromUrl();
+
+  for (var key in init) {
+		var item = document.getElementById(key);
+  	if (item !== undefined && item !== null && item.nodeName === "LI") {
+      var m = convertDate(init[key]);
+      if (m.isValid()) {
+        var input = item.querySelector("input");
+        input.value = init[key];
+        changeInput({ target: input });
+        break;
+      } else {
+        console.log("Invalid date in query parameters");
+      }
+    }
+	}
+
+  </script>
+</body>
+</html>
