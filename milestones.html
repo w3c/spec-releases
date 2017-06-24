@@ -29,8 +29,6 @@ body {
 		/* Typography */
 		line-height: 1.5;
 		font-family: sans-serif;
-		widows: 2;
-		orphans: 2;
 		word-wrap: break-word;
 		overflow-wrap: break-word;
 		hyphens: auto;
@@ -173,7 +171,7 @@ body {
        <span class='date'></span>
     </li>
     <li class='transition' data-day='168' id="to-rec">
-      <label><strong>Day 168:</strong> transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
+      <label><strong>Day 168:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
        <input type="date"/></label> <span class='date'></span>
     </li>
     <li class='publication' data-day='174' id='rec'>
@@ -185,10 +183,13 @@ body {
   <script>
   // For debugging
   var trace = function () {};
-  if (window.location.href.includes("file:")) {
-    trace = function trace(msg) {
+
+  function _trace(msg) {
 	   console.log(msg);
-   };
+  }
+
+  if (window.location.href.includes("file:")) {
+    trace = _trace;
   }
 
   function log(msg) {
@@ -412,6 +413,8 @@ body {
       } else {
         console.log("Invalid date in query parameters");
       }
+    } else if (key === "debug") {
+      trace = _trace;
     }
 	}
 
