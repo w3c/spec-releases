@@ -11,15 +11,17 @@
 <body>
   <h1>Milestones</h1>
   <p>This document is intended to help Chairs and Team Contacts in planning their deadlines for specification milestones.</p>
-  <p>In theory, it takes a <strong>minimum</strong> of around <a href='https://www.w3.org/Consortium/Process/#Reports'>174 days</a> to move a
-  specification to W3C Recommendation, without ongoing exclusion opportunities. On the first day (Day 1), you request the
-  transition to First Public Working Draft and so on until the publication of the W3C Recommendation on the 174th day.
+  <p>In theory, it takes a of around <a href='https://www.w3.org/Consortium/Process/#Reports'>174 days</a> to move a
+  specification to W3C Recommendation, without ongoing exclusion opportunities. Pick one of your publication date and the
+  other dates will be computed for you.
   </p>
   <p>
     The computation takes into account the <a href='https://www.w3.org/Consortium/Process/'>W3C Process</a>,
     the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/'>W3C Patent Policy</a>, and the <a href='https://www.w3.org/Guide/transitions'>transition requirements</a>.
   </p>
 <!--
+How the 174 number was computed...
+
 to-fpwd
   fpwd - 7 days
   avoid-weekend
@@ -68,272 +70,67 @@ rec
   only-tuesday-thursday
 
   -->
-  <ul>
-    <li class='transition' data-day='1' id="to-fpwd">
-      <label><strong>Day 1:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
-       <input type="date"/></label> <span class='date'></span>
+  <ul id='steps'>
+    <li class='transition' data-day='-7' data-base='fpwd' id="to-fpwd">
+      Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
+       <span class='date'></span>
     </li>
-    <li class='publication' data-day='7' id='fpwd'>
-      <label for='day7'><strong>Day 7:</strong> Publication of the <a href='https://www.w3.org/Consortium/Process/#first-wd'>First Public Working Draft</a></label>, start of the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>150 days exclusion</a> opportunity, request for <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a><br>
-       <input type="date" id='day7'/> <span class='date'></span>
+    <li class='publication' data-day='-167' data-base='rec' id='fpwd'>
+      <label for='day7'>Publication of the <a href='https://www.w3.org/Consortium/Process/#first-wd'>First Public Working Draft</a></label>, start of the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>150 days exclusion</a> opportunity, request for <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a><br>
+       <input type="date" id='input-fpwd'/> <span class='date'></span>
     </li>
-    <li class='transition' data-day='90' id="to-cr">
-      <label for='day90'><strong>Day 90:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a></label>, <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> are done<br>
-       <input type="date" id='day90'/> <span class='date'></span>
+    <li class='transition' data-day='-7' data-base='cr' id="to-cr">
+      Transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a>, <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> are done<br>
+        <span class='date'></span>
     </li>
-    <li class='publication' data-day='97' id='cr'>
-      <label for='day97'><strong>Day 97:</strong> Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity, start of the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a>, last Working
+    <li class='publication' data-day='-77' data-base='rec' id='cr'>
+      <label for='day97'>Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity, start of the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a>, last Working
       Draft published before that date is the <a href='https://github.com/w3c/charter-drafts/blob/gh-pages/draft-states.md#reference-draft'>Reference Draft</a> for the 150 days exclusion opportunity started earlier<br>
-       <input type="date" id='day97'/> <span class='date'></span>
+       <input type="date" id='input-cr'/> <span class='date'></span>
     </li>
-    <li class='exact' data-day='125' id='comments'>
-       <label><strong>Day 125:</strong> <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Deadline for comments</a><br>
-       <input type="date"/></label> <span class='date'></span>
-    </li>
-    <li class='transition' data-day='132' id="to-pr">
-      <label><strong>Day 132:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=PR'>Proposed Recommendation</a><br>
-       <input type="date"/></label> <span class='date'></span>
-    </li>
-    <li class='publication' data-day='139' id='pr'>
-      <label id='day139'><strong>Day 139:</strong> Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>Proposed Recommendation</a></label>, deadline for the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a> is set<br>
-       <input type="date" id='day139'/> <span class='date'></span>
-    </li>
-    <li class='exact' data-day='157'>
-       <strong>Day 157:</strong> Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>150 and 60 days exclusion opportunities</a><br>
+    <li class='exact' data-day='28' data-base='cr' id='comments'>
+       <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Deadline for comments</a><br>
        <span class='date'></span>
     </li>
-    <li class='exact' data-day='167' id="ac-review-end">
-       <strong>Day 167:</strong> Last day of the <a href='https://www.w3.org/Consortium/Process/#ACReviewAfter'>Advisory Committee Review</a><br>
+    <li class='transition' data-day='-7' data-base='pr' id="to-pr">
+      Transition request to <a href='https://www.w3.org/Guide/transitions?profile=PR'>Proposed Recommendation</a><br>
        <span class='date'></span>
     </li>
-    <li class='transition' data-day='168' id="to-rec">
-      <label><strong>Day 168:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
-       <input type="date"/></label> <span class='date'></span>
+    <li class='publication' data-day='-34' data-base='rec' id='pr'>
+      <label id='day139'>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>Proposed Recommendation</a></label>, deadline for the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a> is set<br>
+       <input type="date" id='input-pr'/> <span class='date'></span>
     </li>
-    <li class='publication' data-day='174' id='rec'>
-      <label><strong>Day 174:</strong> Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-publication'>Recommendation</a><br>
-       <input type="date"/></label> <span class='date'></span>
+    <li class='exact' data-day='150' data-base='fpwd'>
+       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>150 days exclusion opportunities</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='exact' data-day='60' data-base='cr'>
+       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>60 days exclusion opportunities</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='exact' data-day='28' data-base='pr' id="ac-review-end">
+       Last day of the <a href='https://www.w3.org/Consortium/Process/#ACReviewAfter'>Advisory Committee Review</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='transition' data-day='-7' data-base='rec' id="to-rec">
+      <label>Transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
+       <span class='date'></span>
+    </li>
+    <li class='publication' data-day='167' data-base='fpwd' id='rec'>
+      <label>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-publication'>Recommendation</a><br>
+       <input type="date" id='input-rec'/></label> <span class='date'></span>
     </li>
   </ul>
 
   <pre id='log'></pre>
+
+  <script src='logic.js'>
+  </script>
+
   <hr />
 <address>
  <a href="https://www.w3.org/People/LeHegaret/">plh&#x40;&#0119;&#0051;&#0046;&#0111;&#0114;&#0103;</a><br />
 This document is maintained on <a href='https://github.com/plehegar/spec-releases/'>GitHub</a>. <a href="https://github.com/plehegar/spec-releases/issues">Issues</a> are welcome.
 </address>
-  <script>
-(function() {
-  // For debugging
-  var trace = function () {};
-
-  function _trace(msg) {
-	   console.log(msg);
-  }
-
-  if (window.location.href.includes("file:")) {
-    trace = _trace;
-  }
-
-  function log(msg) {
-    var pre = document.getElementById("log");
-    var text = pre.textContent;
-    if (text !== "") {
-      text += "\n";
-    }
-    pre.textContent = text + msg;
-  }
-
-  function clearLog() {
-    var pre = document.getElementById("log");
-    pre.textContent = "";
-  }
-
-  function convertDate(dateInput) {
-    return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
-  }
-
-  // For publication moratoria
-  // this is populated later by fetching the moratoria.json
-  var moratoria = [];
-
-  function avoidMoratorium(date) {
-    for (var i = 0; i < moratoria.length; i++) {
-      var range = moratoria[i];
-      if (date.isBetween(range[0], range[1], null, "[]")) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // avoid Saturdays and Sundays
-  function inWorkWeek(date) {
-    var day = date.day();
-    return (day !== 0 && day !== 6);
-  }
-
-  // only Tuesdays and Fridays, and avoid moratoria
-  function forPublication(date) {
-    var day = date.day();
-    return ((day === 2 || day === 4)
-            && avoidMoratorium(date));
-  }
-
-  // is this date related to a publication?
-  function isPublication(item) {
-    return item.classList.contains("publication");
-  }
-
-  // is this date related to a transition?
-  function isTransition(item) {
-    return item.classList.contains("transition");
-  }
-
-  function updateItem(item, date, up) {
-      var originalDate = date;
-      var input = item.querySelector("input");
-      var span = item.querySelector("span.date");
-      var publication = isPublication(item);
-      var transition = isTransition(item);
-      while((publication && !forPublication(date))
-            || (transition && !inWorkWeek(date))) {
-        date = moment(date).add((up)?1:-1, "days");
-      }
-      if (!originalDate.isSame(date)) {
-        var msg = originalDate.format("YYYY-MM-DD") + " is ";
-        if (publication) {
-          if (!avoidMoratorium(originalDate)) {
-            msg += "in a publication moratorium";
-          } else {
-            msg += "not a Tuesday or a Thursday";
-          }
-        } else if (transition) {
-          msg += "in the week end";
-        }
-        log(msg + ". Picking instead " + date.format("YYYY-MM-DD"));
-      }
-      if (input !== null) input.value = date.format("YYYY-MM-DD");
-      span.textContent = date.format("dddd, MMMM D YYYY");
-      span.momentDate = date;
-  }
-  function adjustDate(item, refItem, up) {
-      var span = refItem.querySelector("span.date");
-      var refItemDate = moment(span.momentDate);
-      var diff = item.dataset.day - refItem.dataset.day;
-      updateItem(item, refItemDate.add(diff, "days"), up);
-  }
-
-  function adjustDates(refInput) {
-    var item = refInput;
-    while (item.nodeName !== "LI") {
-      item = item.parentNode;
-      if (item === null) throw new Error("Invalid HTML structure");
-    }
-    // adjust the reference date
-    var d;
-    if (refInput.value === "") {
-        return;
-    } else {
-      d = convertDate(refInput.value);
-      if (!d.isValid()) {
-        console.log("*ERROR* Invalid date!");
-        return;
-      }
-    }
-    clearLog();
-    updateItem(item, d, true);
-    onpushstate(item);
-    
-    // adjust the previous milestones
-    var currentItem  = item;
-    var previousItem = item.previousElementSibling;
-    while (previousItem !== null) {
-      adjustDate(previousItem, currentItem, false);
-      currentItem = previousItem;
-      previousItem = previousItem.previousElementSibling;
-    }
-    // adjust the following milestones
-    currentItem  = item;
-    var nextItem = item.nextElementSibling;
-    while (nextItem !== null) {
-      adjustDate(nextItem, currentItem, true);
-      currentItem = nextItem;
-      nextItem = nextItem.nextElementSibling;
-    }
-  }
-
-
-  var disableChange = false;
-  function changeInput(e) {
-    if (disableChange) return;
-    disableChange = true;
-    adjustDates(e.target);
-    disableChange = false;
-  }
-
-  var nodes = document.querySelectorAll("input");
-	for (var i = 0; i < nodes.length; i++) {
-		nodes[i].onchange=changeInput;
-	}
-
-   // browser history status push
-	 function onpushstate(item) {
-     var date = item.querySelector("span.date").momentDate;
-     if (date !== undefined) {
-  		 var query = "?" + item.id + "=" + date.format("YYYY-MM-DD");
-       window.history.pushState({ id : item.id, date: date.format("YYYY-MM-DD") }, item.id, query);
-	  	 trace("pushed " +window.location.href);
-     }
-   }
-
-   // browser back and forward buttons
-   window.onpopstate = function (e) {
-		 var input = document.getElementById(e.state.id).querySelector("input");
-     input.value = e.state.date;
-     changeInput({ target: input });
-  	 trace("popped " +window.location.href);
-   }
-
-  // initialization
-	 
-  function initialize() {
-     // #lazyweb
-	   function getJsonFromUrl() {
-       var query = location.search.substr(1);
-       var result = {};
-       query.split("&").forEach(function(part) {
-        var item = part.split("=");
-        result[item[0]] = decodeURIComponent(item[1]);
-       });
-      return result;
-    }
-    var init  = getJsonFromUrl();
-
-    for (var key in init) {
-	  	var item = document.getElementById(key);
-    	if (item !== undefined && item !== null && item.nodeName === "LI") {
-        var m = convertDate(init[key]);
-        if (m.isValid()) {
-          var input = item.querySelector("input");
-          input.value = init[key];
-          changeInput({ target: input });
-          break;
-        } else {
-          log("Invalid date in query parameters");
-        }
-      } else if (key === "debug") {
-        trace = _trace;
-      }
-	  }
-  }
-
-  fetch("moratoria.json").then(res => res.json())
-    .then(data => { moratoria = data })
-    .then(r => initialize())
-    .catch(err => log(err))
-    .catch(err => console.log(err));
-})();
-  </script>
 </body>
 </html>

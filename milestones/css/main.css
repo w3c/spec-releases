@@ -99,9 +99,9 @@ body {
 	}
 
     ul { margin-left: 0; padding-left: 0; }
-    li { margin-top: 1em; list-style-type: none; padding: 0.5ex; }
+    li { margin-top: 0.25em; list-style-type: none; }
     input { margin-left: 2em; margin-top: 1em; }
-    .transition { border:2px solid #ff6600;  }
-    .publication { border:2px solid #0000ff;  }
+    /* .transition { border:2px solid #ff6600;  } */
+    .publication { border:2px solid #0000ff; padding: 0.5ex;  }
     .date { text-align: right; margin-left: 2em;  }
     #log { background: #ddd; padding: 0.5ex;}
