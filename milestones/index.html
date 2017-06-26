@@ -135,6 +135,7 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
   }
 
   function updateItem(item, date, up) {
+      var originalDate = date;
       var input = item.querySelector("input");
       var span = item.querySelector("span.date");
       var publication = isPublication(item);
@@ -144,6 +145,19 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
           date = moment(date).add(1, "days");
         else
           date = moment(date).add(-1, "days");
+      }
+      if (!originalDate.isSame(date)) {
+        var msg = originalDate.format("YYYY-MM-DD") + " is a ";
+        if (publication) {
+          if (!avoidMoratorium(originalDate)) {
+            msg += "publication moratorium";
+          } else {
+            msg += "Tuesday or a Thursday";
+          }
+        } else {
+          msg += "week end";
+        }
+        log(msg + ". Picking instead " + date.format("YYYY-MM-DD"));
       }
       if (input !== null) input.value = date.format("YYYY-MM-DD");
       span.textContent = date.format("dddd, MMMM D YYYY");
