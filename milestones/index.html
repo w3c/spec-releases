@@ -6,125 +6,7 @@
   <title>174 Days to Recommendation</title>
   <script src="moment.min.js">
   </script>
-  <script>
-    var moratoriums = [
-      [ "2017-06-26", "2017-06-30" ],
-      [ "2017-08-14", "2017-08-18" ],
-      [ "2017-11-06", "2017-11-10" ],
-      [ "2017-12-18", "2018-01-01" ],
-
-      [ "2018-10-22", "2018-10-26" ]
-    ];
-  </script>
-  <style>
-body {
-		counter-reset: example figure issue;
-
-		/* Layout */
-		max-width: 50em;               /* limit line length to 50em for readability   */
-		margin: 0 auto;                /* center text within page                     */
-		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
-		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag     */
-
-		/* Typography */
-		line-height: 1.5;
-		font-family: sans-serif;
-		word-wrap: break-word;
-		overflow-wrap: break-word;
-		hyphens: auto;
-
-		/* Colors */
-		color: black;
-		background: white top left fixed no-repeat;
-		background-size: 25px auto;
-	}
-/** Headings ******************************************************************/
-
-	h1, h2, h3, h4, h5, h6, dt {
-		page-break-after: avoid;
-		page-break-inside: avoid;
-		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
-		font-family: inherit;    /* Inherit the font family. */
-		line-height: 1.2;        /* Keep wrapped headings compact */
-		hyphens: manual;         /* Hyphenated headings look weird */
-	}
-
-	h2, h3, h4, h5, h6 {
-		margin-top: 3rem;
-	}
-
-	h1, h2, h3 {
-		color: #005A9C;
-		background: transparent;
-	}
-
-	h1 { font-size: 170%; }
-	h2 { font-size: 140%; }
-	h3 { font-size: 120%; }
-	h4 { font-weight: bold; }
-	h5 { font-style: italic; }
-	h6 { font-variant: small-caps; }
-	dt { font-weight: bold; }
-
-  /******************************************************************************/
-/*                            Paragraphs and Lists                            */
-/******************************************************************************/
-
-	p {
-		margin: 1em 0;
-	}
-
-	dd > p:first-child,
-	li > p:first-child {
-		margin-top: 0;
-	}
-
-	ul, ol {
-		margin-left: 0;
-		padding-left: 2em;
-	}
-
-	li {
-		margin: 0.25em 0 0.5em;
-		padding: 0;
-	}
-  
-  /** General Hyperlinks ********************************************************/
-
-	/* We hyperlink a lot, so make it less intrusive */
-	a[href] {
-		color: #034575;
-		text-decoration: none;
-		border-bottom: 1px solid #707070;
-		/* Need a bit of extending for it to look okay */
-		padding: 0 1px 0;
-		margin: 0 -1px 0;
-	}
-	a:visited {
-		border-bottom-color: #BBB;
-	}
-
-	/* Use distinguishing colors when user is interacting with the link */
-	a[href]:focus,
-	a[href]:hover {
-		background: #f8f8f8;
-		background: rgba(75%, 75%, 75%, .25);
-		border-bottom-width: 3px;
-		margin-bottom: -2px;
-	}
-	a[href]:active {
-		color: #C00;
-		border-color: #C00;
-	}
-
-    ul { margin-left: 0; padding-left: 0; }
-    li { margin-top: 1em; list-style-type: none; padding: 0.5ex; }
-    input { margin-left: 2em; margin-top: 1em; }
-    .transition { border:2px solid #ff6600;  }
-    .publication { border:2px solid #0000ff;  }
-    .date { text-align: right; margin-left: 2em;  }
-    #log { background: #ddd; padding: 0.5ex;}
-  </style>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
   <h1>Milestones</h1>
@@ -192,6 +74,8 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
   // For debugging
   var trace = function () {};
 
+  var moratoria = [];
+
   function _trace(msg) {
 	   console.log(msg);
   }
@@ -218,10 +102,10 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
     return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
   }
 
-  // avoid moratoriums
+  // avoid moratoria
   function inMoratorium(date, up) {
-    for (var i = 0; i < moratoriums.length; i++) {
-      var range = moratoriums[i];
+    for (var i = 0; i < moratoria.length; i++) {
+      var range = moratoria[i];
       if (date.isBetween(range[0], range[1], null, "[]")) {
         var newdate;
         if (up) {
@@ -329,8 +213,13 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
   }
 
   function adjustDates(refInput) {
-    var item = refInput.parentNode.parentNode;
+    var item = refInput;
+    while (item.nodeName !== "LI") {
+      item = item.parentNode;
+      if (item === null) throw new Error("Invalid HTML structure");
+    }
     // adjust the reference date
+      console.log(item);
     var d;
     if (refInput.value === "") {
         return;
@@ -397,34 +286,42 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
 
   // initialization
 	 
-	 // #lazyweb
-	 function getJsonFromUrl() {
-     var query = location.search.substr(1);
-     var result = {};
-     query.split("&").forEach(function(part) {
-      var item = part.split("=");
-      result[item[0]] = decodeURIComponent(item[1]);
-     });
-    return result;
-  }
-  var init  = getJsonFromUrl();
-
-  for (var key in init) {
-		var item = document.getElementById(key);
-  	if (item !== undefined && item !== null && item.nodeName === "LI") {
-      var m = convertDate(init[key]);
-      if (m.isValid()) {
-        var input = item.querySelector("input");
-        input.value = init[key];
-        changeInput({ target: input });
-        break;
-      } else {
-        console.log("Invalid date in query parameters");
-      }
-    } else if (key === "debug") {
-      trace = _trace;
+  function initialize() {
+     // #lazyweb
+	   function getJsonFromUrl() {
+       var query = location.search.substr(1);
+       var result = {};
+       query.split("&").forEach(function(part) {
+        var item = part.split("=");
+        result[item[0]] = decodeURIComponent(item[1]);
+       });
+      return result;
     }
-	}
+    var init  = getJsonFromUrl();
+
+    for (var key in init) {
+	  	var item = document.getElementById(key);
+    	if (item !== undefined && item !== null && item.nodeName === "LI") {
+        var m = convertDate(init[key]);
+        if (m.isValid()) {
+          var input = item.querySelector("input");
+          input.value = init[key];
+          changeInput({ target: input });
+          break;
+        } else {
+          console.log("Invalid date in query parameters");
+        }
+      } else if (key === "debug") {
+        trace = _trace;
+      }
+	  }
+  }
+
+  fetch("moratoria.json").then(res => res.json())
+    .then(data => { moratoria = data })
+    .then(r => initialize())
+    .catch(err => log(err))
+    .catch(err => console.log(err));
 
   </script>
 </body>
