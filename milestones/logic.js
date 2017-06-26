@@ -140,6 +140,20 @@
       }
     }
 
+    // adjust reference draft according to transition request for CR
+    var toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
+    var referenceDraft = document.getElementById("reference-draft").momentDate;
+    if (referenceDraft.isAfter(toCR)) {
+      log("Shift reference draft last update to be 1 day before CR transition request");
+      updateItem(document.getElementById("reference-draft"), toCR, false);
+    }
+    // adjust transition request for PR according to deadline for comments
+    var commentEnd = moment(document.getElementById("comments").momentDate).add(1, "days");
+    var toPR = document.getElementById("to-pr").momentDate;
+    if (toPR.isBefore(commentEnd)) {
+      log("Shift transition request for PR to be 1 day after deadline for comments");
+      updateItem(document.getElementById("to-pr"), commentEnd, false);
+    }
     // adjust end of AC review according to call for exclusions
     var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
     var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
