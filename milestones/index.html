@@ -102,87 +102,28 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
     return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
   }
 
-  // avoid moratoria
-  function inMoratorium(date, up) {
+  // For publication moratoria
+  function avoidMoratorium(date) {
     for (var i = 0; i < moratoria.length; i++) {
       var range = moratoria[i];
       if (date.isBetween(range[0], range[1], null, "[]")) {
-        var newdate;
-        if (up) {
-          newdate = moment(range[1]).add(1, "days");
-        } else {
-          newdate = moment(range[0]).add(-1, "days");
-        }
-        log("Avoiding publication moratorium: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
-        return newdate;
+        return false;
       }
     }
-    return date;
+    return true;
   }
 
   // avoid Saturdays and Sundays
-  function inWorkWeek(date, up) {
-    var diff = 0;
-    if (up === undefined) up = true;
-    switch (date.day()) {
-      case 0:
-        diff = (up)? 1 : -2;
-        break;
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-        // nothing to do
-        break;
-      case 6:
-        diff = (up)? 2 : -1;
-        break;          
-    }
-    if (diff === 0) {
-      return date;
-    } else {
-      var newdate = moment(date).add(diff, "days");
-      log("Avoiding weekends: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
-      return newdate;
-    }
+  function inWorkWeek(date) {
+    var day = date.day();
+    return (day !== 0 && day !== 6);
   }
 
   // only Tuesdays and Fridays
-  function forPublication(date, up) {
-    var diff = 0;
-    date = inMoratorium(date, up);
-    if (up === undefined) up = true;
-    switch (date.day()) {
-      case 0:
-        diff = (up)? 2 : -3;
-        break;
-      case 1:
-        diff = (up)? 1 : -4;
-        break;
-      case 2:
-        // nothing to do
-        break;
-      case 3:
-        diff = (up)? 1 : -1;
-        break;
-      case 4:
-        // nothing to do
-        break;
-      case 5:
-        diff = (up)? 4 : -1;
-        break;
-      case 6:
-        diff = (up)? 3 : -2;
-        break;          
-    }
-    if (diff === 0) {
-      return date;
-    } else {
-      var newdate = moment(date).add(diff, "days");
-      log("Picking a Tuesday or Thursday: " + date.format("YYYY-MM-DD") + " -> " + newdate.format("YYYY-MM-DD"));
-      return newdate;
-    }
+  function forPublication(date) {
+    var day = date.day();
+    return ((day === 2 || day === 4)
+            && avoidMoratorium(date));
   }
 
   function isPublication(item) {
@@ -193,17 +134,20 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
     return item.classList.contains("transition");
   }
 
-  function updateItem(item, newdate, up) {
+  function updateItem(item, date, up) {
       var input = item.querySelector("input");
       var span = item.querySelector("span.date");
-      if (isPublication(item)) {
-        newdate = forPublication(newdate, up);
-      } else if (isTransition(item)) {
-        newdate = inWorkWeek(newdate, up);
+      var publication = isPublication(item);
+      while((publication && !forPublication(date))
+            || (!publication && !inWorkWeek(date))) {
+        if (up)
+          date = moment(date).add(1, "days");
+        else
+          date = moment(date).add(-1, "days");
       }
-      if (input !== null) input.value = newdate.format("YYYY-MM-DD");
-      span.textContent = newdate.format("dddd, MMMM D YYYY");
-      span.momentDate = newdate;
+      if (input !== null) input.value = date.format("YYYY-MM-DD");
+      span.textContent = date.format("dddd, MMMM D YYYY");
+      span.momentDate = date;
   }
   function adjustDate(item, refItem, up) {
       var span = refItem.querySelector("span.date");
