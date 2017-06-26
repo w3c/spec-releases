@@ -113,8 +113,8 @@
   }
 
   // adjust all the dates according to the REC one
-  function adjustAllDates()  {
-    trace("Adjust all dates");
+  function tuneDates()  {
+    trace("Tune all remaining dates to match the REC");
 
     // update one Item
     function updateLI(li) {
@@ -138,6 +138,26 @@
       if (li.momentDate === undefined) {
         updateLI(li);
       }
+    }
+
+    // adjust end of AC review according to call for exclusions
+    var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
+    var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
+    var acEnd = document.getElementById("ac-review-end").momentDate;
+    if (acEnd.isBefore(cfe1)) {
+      log("Shift end of AC review to be 10 days after end of 150 days exclusion opportunity")
+      updateItem(document.getElementById("ac-review-end"), cfe1, false);
+    }
+    if (acEnd.isBefore(cfe2)) {
+      log("Shift end of AC review to be 10 days after end of 60 days exclusion opportunity")
+      updateItem(document.getElementById("ac-review-end"), cfe2, false);
+    }
+    // adjust transition request for REC according to end of AC review
+    acEnd = moment(document.getElementById("ac-review-end").momentDate).add(1, "days");
+    var toREC = document.getElementById("to-rec").momentDate;
+    if (toREC.isBefore(acEnd)) {
+      log("Shift transition request for REC to be 1 day after end of AC review")
+      updateItem(document.getElementById("to-rec"), acEnd, false);
     }
   }
 
@@ -175,7 +195,7 @@
       var refItemDate = moment(item.momentDate);
       updateItem(itemRec, refItemDate.add(Math.abs(item.dataset.day), "days"), true);
     }
-    adjustAllDates();
+    tuneDates();
   }
 
 
