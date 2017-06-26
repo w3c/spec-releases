@@ -114,7 +114,7 @@
 
   // adjust all the dates according to the REC one
   function adjustAllDates()  {
-    console.log("Adjust all dates");
+    trace("Adjust all dates");
 
     // update one Item
     function updateLI(li) {
@@ -143,7 +143,7 @@
 
 
   function adjustDates(refInput) {
-    console.log("Adjust dates");
+    trace("Adjust dates");
     var item = refInput;
     while (item.nodeName !== "LI") {
       item = item.parentNode;
@@ -170,7 +170,7 @@
     // all dates can be computed from the REC, so compute it
     // (REC uses the fpwd as a base)
     if (item.dataset.base === 'rec') {
-      console.log("Adjust REC date");
+      trace("Adjust REC date");
       var itemRec = document.getElementById("rec");
       var refItemDate = moment(item.momentDate);
       updateItem(itemRec, refItemDate.add(Math.abs(item.dataset.day), "days"), true);
