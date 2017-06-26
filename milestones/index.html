@@ -219,7 +219,6 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
       if (item === null) throw new Error("Invalid HTML structure");
     }
     // adjust the reference date
-      console.log(item);
     var d;
     if (refInput.value === "") {
         return;
@@ -309,7 +308,7 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
           changeInput({ target: input });
           break;
         } else {
-          console.log("Invalid date in query parameters");
+          log("Invalid date in query parameters");
         }
       } else if (key === "debug") {
         trace = _trace;
