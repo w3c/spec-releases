@@ -147,12 +147,12 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
           date = moment(date).add(-1, "days");
       }
       if (!originalDate.isSame(date)) {
-        var msg = originalDate.format("YYYY-MM-DD") + " is a ";
+        var msg = originalDate.format("YYYY-MM-DD") + " is ";
         if (publication) {
           if (!avoidMoratorium(originalDate)) {
-            msg += "publication moratorium";
+            msg += "a publication moratorium";
           } else {
-            msg += "Tuesday or a Thursday";
+            msg += "not a Tuesday or a Thursday";
           }
         } else {
           msg += "week end";
