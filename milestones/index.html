@@ -19,7 +19,55 @@
     The computation takes into account the <a href='https://www.w3.org/Consortium/Process/'>W3C Process</a>,
     the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/'>W3C Patent Policy</a>, and the <a href='https://www.w3.org/Guide/transitions'>transition requirements</a>.
   </p>
+<!--
+to-fpwd
+  fpwd - 7 days
+  avoid-weekend
 
+fpwd
+  avoid-moratorium
+  only-tuesday-thursday
+
+to-cr
+  cr - 7 days  
+  avoid-weekend
+
+cr
+  avoid-moratorium
+  only-tuesday-thursday
+
+reference-draft
+  fpwd + 90 days
+
+fpwd-exclusion-end
+  fpwd + 150 days
+
+cr-exclusion-end
+  cr + 60 days
+
+to-pr
+  pr - 7 days
+  avoid-weekend
+
+pr 
+  ac-review-end - 28 days
+  avoid-moratorium
+  only-tuesday-thursday
+
+ac-review-end
+  fpwd-exclusion-end + 10 days
+  cr-exclusion-end + 10 days
+
+to-rec
+  ac-review-end + 1 day
+  rec - 6 days
+  avoid-weekend
+
+rec
+  avoid-moratorium
+  only-tuesday-thursday
+
+  -->
   <ul>
     <li class='transition' data-day='1' id="to-fpwd">
       <label><strong>Day 1:</strong> Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
@@ -75,10 +123,9 @@
 This document is maintained on <a href='https://github.com/plehegar/spec-releases/'>GitHub</a>. <a href="https://github.com/plehegar/spec-releases/issues">Issues</a> are welcome.
 </address>
   <script>
+(function() {
   // For debugging
   var trace = function () {};
-
-  var moratoria = [];
 
   function _trace(msg) {
 	   console.log(msg);
@@ -107,6 +154,9 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
   }
 
   // For publication moratoria
+  // this is populated later by fetching the moratoria.json
+  var moratoria = [];
+
   function avoidMoratorium(date) {
     for (var i = 0; i < moratoria.length; i++) {
       var range = moratoria[i];
@@ -123,17 +173,19 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
     return (day !== 0 && day !== 6);
   }
 
-  // only Tuesdays and Fridays
+  // only Tuesdays and Fridays, and avoid moratoria
   function forPublication(date) {
     var day = date.day();
     return ((day === 2 || day === 4)
             && avoidMoratorium(date));
   }
 
+  // is this date related to a publication?
   function isPublication(item) {
     return item.classList.contains("publication");
   }
 
+  // is this date related to a transition?
   function isTransition(item) {
     return item.classList.contains("transition");
   }
@@ -143,12 +195,10 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
       var input = item.querySelector("input");
       var span = item.querySelector("span.date");
       var publication = isPublication(item);
+      var transition = isTransition(item);
       while((publication && !forPublication(date))
-            || (!publication && !inWorkWeek(date))) {
-        if (up)
-          date = moment(date).add(1, "days");
-        else
-          date = moment(date).add(-1, "days");
+            || (transition && !inWorkWeek(date))) {
+        date = moment(date).add((up)?1:-1, "days");
       }
       if (!originalDate.isSame(date)) {
         var msg = originalDate.format("YYYY-MM-DD") + " is ";
@@ -158,7 +208,7 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
           } else {
             msg += "not a Tuesday or a Thursday";
           }
-        } else {
+        } else if (transition) {
           msg += "in the week end";
         }
         log(msg + ". Picking instead " + date.format("YYYY-MM-DD"));
@@ -283,7 +333,7 @@ This document is maintained on <a href='https://github.com/plehegar/spec-release
     .then(r => initialize())
     .catch(err => log(err))
     .catch(err => console.log(err));
-
+})();
   </script>
 </body>
 </html>
