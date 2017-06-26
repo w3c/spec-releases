@@ -1,12 +1,7 @@
 [
-
-      // Entry format is [ "YYYY-MM-DD", "YYYY-MM-DD", "Description" ],
-
       [ "2017-06-26", "2017-06-30", "Limited W3C Staff availability" ],
       [ "2017-08-14", "2017-08-18", "Summer" ],
       [ "2017-11-06", "2017-11-10", "TPAC 2017" ],
       [ "2017-12-18", "2018-01-01", "End of Year" ],
       [ "2018-10-22", "2018-10-26", "TPAC 2018" ]
-
-      // That the last entry must not use the comma at the end of the line
 ]
