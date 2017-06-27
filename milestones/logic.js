@@ -147,7 +147,7 @@
       var toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
       var referenceDraft = document.getElementById("reference-draft").momentDate;
       if (referenceDraft.isAfter(toCR)) {
-        log("Shift reference draft last update to be 1 day before CR transition request");
+        log("Shifted reference draft last update to be 1 day before CR transition request");
         updateItem(document.getElementById("reference-draft"), toCR, false);
       }
     }
@@ -155,7 +155,7 @@
     var commentEnd = moment(document.getElementById("comments").momentDate).add(1, "days");
     var toPR = document.getElementById("to-pr").momentDate;
     if (toPR.isBefore(commentEnd)) {
-      log("Shift transition request for PR to be 1 day after deadline for comments");
+      log("Shifted transition request for PR to be 1 day after deadline for comments");
       updateItem(document.getElementById("to-pr"), commentEnd, false);
     }
     // adjust end of AC review according to call for exclusions    
@@ -163,20 +163,20 @@
     if (!noFPWD) {
       var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
       if (acEnd.isBefore(cfe1)) {
-        log("Shift end of AC review to be 10 days after end of 150 days exclusion opportunity")
+        log("Shifted end of AC review to be 10 days after end of 150 days exclusion opportunity")
         updateItem(document.getElementById("ac-review-end"), cfe1, false);
       }
     }
     var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
     if (acEnd.isBefore(cfe2)) {
-      log("Shift end of AC review to be 10 days after end of 60 days exclusion opportunity")
+      log("Shifted end of AC review to be 10 days after end of 60 days exclusion opportunity")
       updateItem(document.getElementById("ac-review-end"), cfe2, false);
     }
     // adjust transition request for REC according to end of AC review
     acEnd = moment(document.getElementById("ac-review-end").momentDate).add(1, "days");
     var toREC = document.getElementById("to-rec").momentDate;
     if (toREC.isBefore(acEnd)) {
-      log("Shift transition request for REC to be 1 day after end of AC review")
+      log("Shifted transition request for REC to be 1 day after end of AC review")
       updateItem(document.getElementById("to-rec"), acEnd, false);
     }
   }
