@@ -128,24 +128,28 @@
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
       var li = list[index];
-      if (li.momentDate === undefined && li.dataset.base === 'rec') {
+      if (li.momentDate === undefined && li.dataset.base === 'rec'
+          && !li.hasAttribute("hidden")) {
         updateLI(li);
       }
     }
     // compute all remaining dates
     for (var index = 0; index < list.length; index++) {
       var li = list[index];
-      if (li.momentDate === undefined) {
+      if (li.momentDate === undefined
+          && !li.hasAttribute("hidden")) {
         updateLI(li);
       }
     }
 
     // adjust reference draft according to transition request for CR
-    var toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
-    var referenceDraft = document.getElementById("reference-draft").momentDate;
-    if (referenceDraft.isAfter(toCR)) {
-      log("Shift reference draft last update to be 1 day before CR transition request");
-      updateItem(document.getElementById("reference-draft"), toCR, false);
+    if (!noFPWD) {
+      var toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
+      var referenceDraft = document.getElementById("reference-draft").momentDate;
+      if (referenceDraft.isAfter(toCR)) {
+        log("Shift reference draft last update to be 1 day before CR transition request");
+        updateItem(document.getElementById("reference-draft"), toCR, false);
+      }
     }
     // adjust transition request for PR according to deadline for comments
     var commentEnd = moment(document.getElementById("comments").momentDate).add(1, "days");
@@ -154,14 +158,16 @@
       log("Shift transition request for PR to be 1 day after deadline for comments");
       updateItem(document.getElementById("to-pr"), commentEnd, false);
     }
-    // adjust end of AC review according to call for exclusions
-    var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
-    var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
+    // adjust end of AC review according to call for exclusions    
     var acEnd = document.getElementById("ac-review-end").momentDate;
-    if (acEnd.isBefore(cfe1)) {
-      log("Shift end of AC review to be 10 days after end of 150 days exclusion opportunity")
-      updateItem(document.getElementById("ac-review-end"), cfe1, false);
+    if (!noFPWD) {
+      var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
+      if (acEnd.isBefore(cfe1)) {
+        log("Shift end of AC review to be 10 days after end of 150 days exclusion opportunity")
+        updateItem(document.getElementById("ac-review-end"), cfe1, false);
+      }
     }
+    var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
     if (acEnd.isBefore(cfe2)) {
       log("Shift end of AC review to be 10 days after end of 60 days exclusion opportunity")
       updateItem(document.getElementById("ac-review-end"), cfe2, false);
@@ -174,8 +180,41 @@
       updateItem(document.getElementById("to-rec"), acEnd, false);
     }
   }
-
-
+  var noFPWD = false;
+  function removeFPWD() {
+    trace("Remove FPWD dates");
+    noFPWD = true;
+    var list = document.querySelectorAll("ul#steps li");
+    // compute all the dates that are using the REC as a base
+    for (var index = 0; index < list.length; index++) {
+      var li = list[index];
+      if (li.id === 'to-fpwd' || li.id === "fpwd"
+          || li.id === "first-cfe" || li.id === "reference-draft") {
+        li.setAttribute("hidden", "hidden");
+      }
+    }    
+  }
+  function addFPWD() {
+    trace("Add FPWD dates");
+    noFPWD = false;
+    var list = document.querySelectorAll("ul#steps li");
+    // compute all the dates that are using the REC as a base
+    for (var index = 0; index < list.length; index++) {
+      var li = list[index];
+      if (li.id === 'to-fpwd' || li.id === "fpwd"
+          || li.id === "first-cfe" || li.id === "reference-draft") {
+        li.removeAttribute("hidden");
+      }
+    }    
+  }
+  function toggleFPWD(e) {
+    trace("Toggle noFPWD");
+    if (e.target.checked) {
+      removeFPWD();
+    } else {
+      addFPWD();
+    }
+  }
   function adjustDates(refInput) {
     trace("Adjust dates");
     var item = refInput;
@@ -221,17 +260,21 @@
     disableChange = false;
   }
 
-  var nodes = document.querySelectorAll("input");
+  var nodes = document.querySelectorAll("input[type=date]");
 	for (var i = 0; i < nodes.length; i++) {
 		nodes[i].onchange=changeInput;
 	}
+
+  document.querySelector("input[type=checkbox]").onchange = toggleFPWD;
 
    // browser history status push
 	 function onpushstate(item) {
      var date = item.momentDate;
      if (date !== undefined) {
   		 var query = "?" + item.id + "=" + date.format("YYYY-MM-DD");
-       window.history.pushState({ id : item.id, date: date.format("YYYY-MM-DD") }, item.id, query);
+       if (noFPWD)
+        query+= "&noFPWD=true";
+       window.history.pushState({ id : item.id, date: date.format("YYYY-MM-DD"), noFPWD: noFPWD }, item.id, query);
 	  	 trace("pushed " +window.location.href);
      }
    }
@@ -241,6 +284,10 @@
 		 var input = document.getElementById(e.state.id).querySelector("input");
      input.value = e.state.date;
      changeInput({ target: input });
+     if (!noFPWD)
+      document.querySelector("input[type=checkbox]").checked = true;
+     else
+      document.querySelector("input[type=checkbox]").checked = false;
   	 trace("popped " +window.location.href);
    }
 
@@ -259,20 +306,24 @@
     }
     var init  = getJsonFromUrl();
 
+    var foundARef = false;
     for (var key in init) {
 	  	var item = document.getElementById(key);
-    	if (item !== undefined && item !== null && item.nodeName === "LI") {
+    	if (item !== undefined && item !== null && item.nodeName === "LI" && !foundARef) {
         var m = convertDate(init[key]);
         if (m.isValid()) {
           var input = item.querySelector("input");
           input.value = init[key];
+          foundARef = true;
           changeInput({ target: input });
-          break;
         } else {
           log("Invalid date in query parameters");
         }
       } else if (key === "debug") {
         trace = _trace;
+      } else if (key === "noFPWD") {
+        document.querySelector("input[type=checkbox]").checked = true;
+        removeFPWD();
       }
 	  }
   }
