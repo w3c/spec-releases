@@ -307,23 +307,27 @@
     var init  = getJsonFromUrl();
 
     var foundARef = false;
-    for (var key in init) {
-	  	var item = document.getElementById(key);
-    	if (item !== undefined && item !== null && item.nodeName === "LI" && !foundARef) {
-        var m = convertDate(init[key]);
-        if (m.isValid()) {
-          var input = item.querySelector("input");
-          input.value = init[key];
-          foundARef = true;
-          changeInput({ target: input });
-        } else {
-          log("Invalid date in query parameters");
-        }
-      } else if (key === "debug") {
-        trace = _trace;
-      } else if (key === "noFPWD") {
+    if (init["noFPWD"] === "true") {
         document.querySelector("input[type=checkbox]").checked = true;
         removeFPWD();
+    }
+    if (init["debug"] !== undefined) {
+        trace = _trace;
+    }
+    for (var key in init) {
+      if (!foundARef) {
+	    	var item = document.getElementById(key);
+      	if (item !== undefined && item !== null && item.nodeName === "LI") {
+          var m = convertDate(init[key]);
+          if (m.isValid()) {
+            var input = item.querySelector("input");
+            input.value = init[key];
+            foundARef = true;
+            changeInput({ target: input });
+          } else {
+            log("Invalid date in query parameters");
+          }
+        }
       }
 	  }
   }
