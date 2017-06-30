@@ -24,6 +24,11 @@
     pre.textContent = "";
   }
 
+  var config = {
+    item: "rec",
+    noFPWD: false
+  }
+
   function convertDate(dateInput) {
     return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
   }
@@ -180,10 +185,9 @@
       updateItem(document.getElementById("to-rec"), acEnd, false);
     }
   }
-  var noFPWD = false;
   function removeFPWD() {
     trace("Remove FPWD dates");
-    noFPWD = true;
+    config.noFPWD = true;
     var list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
@@ -193,10 +197,11 @@
         li.setAttribute("hidden", "hidden");
       }
     }    
+    onpushstate();
   }
   function addFPWD() {
     trace("Add FPWD dates");
-    noFPWD = false;
+    config.noFPWD = false;
     var list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
@@ -206,12 +211,14 @@
         li.removeAttribute("hidden");
       }
     }    
+    onpushstate();
   }
   function toggleFPWD(e) {
+    if (disableChange) return;
     trace("Toggle noFPWD");
-    if (e.target.checked) {
+    if (e.target.checked && !config.noFPWD) {
       removeFPWD();
-    } else {
+    } else if (!e.target.checked && config.noFPWD){
       addFPWD();
     }
   }
@@ -238,7 +245,8 @@
     clearLog();
     clearDates();
     updateItem(item, d, true);
-    onpushstate(item);
+    config.id = item.id;
+    onpushstate();
     
     // all dates can be computed from the REC, so compute it
     // (REC uses the fpwd as a base)
@@ -268,23 +276,34 @@
   document.querySelector("input[type=checkbox]").onchange = toggleFPWD;
 
    // browser history status push
-	 function onpushstate(item) {
-     var date = item.momentDate;
-     if (date !== undefined) {
-  		 var query = "?" + item.id + "=" + date.format("YYYY-MM-DD");
-       if (noFPWD)
-        query+= "&noFPWD=true";
-       window.history.pushState({ id : item.id, date: date.format("YYYY-MM-DD"), noFPWD: noFPWD }, item.id, query);
-	  	 trace("pushed " +window.location.href);
+	 function onpushstate() {
+     var item = document.getElementById(config.id);
+     var query = "";
+     if (item !== null) {
+       var date = item.momentDate;
+       if (date !== undefined) {
+         config.date = date.format("YYYY-MM-DD");
+  		   query += item.id + "=" + date.format("YYYY-MM-DD");
+       }
      }
+     if (config.noFPWD) {
+       if (query.length > 1) query += "&";
+       query+= "noFPWD=true";
+     }
+     if (query.length > 1) {
+      query = "?" + query;
+     }
+     window.history.pushState(config, config.id, query);
+	  	 trace("pushed " +window.location.href);
    }
 
    // browser back and forward buttons
    window.onpopstate = function (e) {
 		 var input = document.getElementById(e.state.id).querySelector("input");
      input.value = e.state.date;
+     config.noFPWD = e.state.noFPWD;
      changeInput({ target: input });
-     if (!noFPWD)
+     if (!config.noFPWD)
       document.querySelector("input[type=checkbox]").checked = true;
      else
       document.querySelector("input[type=checkbox]").checked = false;
@@ -334,5 +353,6 @@
 
   fetch("moratoria.json").then(res => res.json())
     .then(data => { moratoria = data })
+    .catch(err => console.log(err))
     .then(r => initialize());
 })();
