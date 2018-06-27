@@ -30,7 +30,7 @@
   }
 
   function convertDate(dateInput) {
-    return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone; 
+    return moment(dateInput + "T10:00:00-04:00"); // US/Eastern timezone;
   }
 
   // For publication moratoria
@@ -90,7 +90,7 @@
         msg += "\n";
         date = moment(date).add((up)?1:-1, "days");
       }
-      if (!originalDate.isSame(date)) {        
+      if (!originalDate.isSame(date)) {
         log(originalDate.format("YYYY-MM-DD")
           + " didn't work out. Picked instead "
           + date.format("YYYY-MM-DD") + "\n" + msg);
@@ -127,7 +127,7 @@
         if (refDate === undefined)
           throw new Error("Can't compute from base " + li.dataset.base);
         var refItemDate = moment(refDate);
-        updateItem(li, refItemDate.add(li.dataset.day, "days"), false);      
+        updateItem(li, refItemDate.add(li.dataset.day, "days"), false);
     }
     var list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
@@ -163,7 +163,7 @@
       log("Shifted transition request for PR to be 1 day after deadline for comments");
       updateItem(document.getElementById("to-pr"), commentEnd, false);
     }
-    // adjust end of AC review according to call for exclusions    
+    // adjust end of AC review according to call for exclusions
     var acEnd = document.getElementById("ac-review-end").momentDate;
     if (!noFPWD) {
       var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
@@ -196,7 +196,7 @@
           || li.id === "first-cfe" || li.id === "reference-draft") {
         li.setAttribute("hidden", "hidden");
       }
-    }    
+    }
     onpushstate();
   }
   function addFPWD() {
@@ -210,7 +210,7 @@
           || li.id === "first-cfe" || li.id === "reference-draft") {
         li.removeAttribute("hidden");
       }
-    }    
+    }
     onpushstate();
   }
   function toggleFPWD(e) {
@@ -230,7 +230,7 @@
       if (item === null) throw new Error("Invalid HTML structure");
     }
     clearLog();
-    
+
     // adjust the reference input date
     var d;
     if (refInput.value === "") {
@@ -247,7 +247,7 @@
     updateItem(item, d, true);
     config.id = item.id;
     onpushstate();
-    
+
     // all dates can be computed from the REC, so compute it
     // (REC uses the fpwd as a base)
     if (item.dataset.base === 'rec') {
@@ -310,8 +310,23 @@
   	 trace("popped " +window.location.href);
    }
 
+   function displayMoratoria() {
+    var list = document.getElementById("moratoria-list");
+    var today = moment();
+    for (var i = 0; i < moratoria.length; i++) {
+      var range = moratoria[i];
+      if (today.isSameOrBefore(range[1])) {
+        var li = document.createElement("li");
+        li.textContent = "From " + moment(range[0]).format('MMMM Do, YYYY')
+          + " to " + moment(range[1]).format('MMMM Do, YYYY')
+          + " : " + range[2];
+          list.appendChild(li);
+      }
+    }
+   }
+
   // initialization
-	 
+
   function initialize() {
      // #lazyweb
 	   function getJsonFromUrl() {
@@ -350,7 +365,8 @@
           }
         }
       }
-	  }
+    }
+    displayMoratoria();
   }
 
   fetch("moratoria.json").then(res => res.json())
