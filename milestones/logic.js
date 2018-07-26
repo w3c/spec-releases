@@ -54,10 +54,11 @@
   }
 
   // only Tuesdays and Fridays, and avoid moratoria
-  function forPublication(date) {
+  function forPublication(item, date) {
     var day = date.day();
-    return ((day === 2 || day === 4)
-            && avoidMoratorium(date));
+    return (item.id === 'cr'
+            || ((day === 2 || day === 4)
+                && avoidMoratorium(date)));
   }
 
   // is this date related to a publication?
@@ -75,7 +76,7 @@
       var publication = isPublication(item);
       var transition = isTransition(item);
       var msg = "";
-      while((publication && !forPublication(date))
+      while((publication && !forPublication(item, date))
             || (transition && !inWorkWeek(date))) {
         if (publication) {
           msg += " " + date.format("YYYY-MM-DD") + " is ";
