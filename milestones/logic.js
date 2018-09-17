@@ -176,7 +176,7 @@
     }
 
     // adjust reference draft according to transition request for CR
-    if (!noFPWD) {
+    if (!config.noFPWD) {
       let toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
       let referenceDraft = document.getElementById("reference-draft").momentDate;
       if (referenceDraft.isAfter(toCR)) {
@@ -193,7 +193,7 @@
     }
     // adjust end of AC review according to call for exclusions
     let acEnd = document.getElementById("ac-review-end").momentDate;
-    if (!noFPWD) {
+    if (!config.noFPWD) {
       let cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
       if (acEnd.isBefore(cfe1)) {
         log("Shifted end of AC review to be 10 days after end of 150 days exclusion opportunity")
