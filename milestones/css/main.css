@@ -98,8 +98,8 @@ body {
 		border-color: #C00;
 	}
 
-    ul { margin-left: 0; padding-left: 0; }
-    li { margin-top: 0.25em; list-style-type: none; }
+    ul#steps { margin-left: 0; padding-left: 0; }
+    #steps li { margin-top: 0.25em; list-style-type: none; }
     input { margin-left: 2em; margin-top: 1em; }
     /* .transition { border:2px solid #ff6600;  } */
     .publication { border:2px solid #0000ff; padding: 0.5ex;  }
