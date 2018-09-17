@@ -104,4 +104,11 @@ body {
     /* .transition { border:2px solid #ff6600;  } */
     .publication { border:2px solid #0000ff; padding: 0.5ex;  }
     .date { text-align: right; margin-left: 2em;  }
-    #log { background: #ddd; padding: 0.5ex;}
+    #log, .msg { background: #ddd; padding: 0.5ex;}
+
+		.msg, .echidna {
+			display: none;
+		}
+		.echidna {
+			margin-left: 1em;
+		}

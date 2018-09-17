@@ -33,7 +33,7 @@ In reality, various requirements from the W3C process may introduce delays (deve
     <label for="noFPWD">Hide the First Public Working Draft constraints</label>
   </p>
 <!--
-How the 174 number was computed...
+How the days was computed...
 
 to-fpwd
   fpwd - 7 days
@@ -90,7 +90,9 @@ rec
     <li class='publication' data-day='-167' data-base='rec' id='fpwd'>
       <label for='day7'>Publication of the <a href='https://www.w3.org/Consortium/Process/#first-wd'>First Public Working Draft</a></label>, start of the <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>150 days exclusion</a> opportunity, request for <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a><br>
        <input type="date" id='input-fpwd'/> <span class='date'></span>
-    </li>
+       <pre class='msg'>
+      </pre>
+   </li>
     <li class='exact' data-day='90' data-base='fpwd' id='reference-draft'>
        Last day to set  the <a href='https://github.com/w3c/charter-drafts/blob/gh-pages/draft-states.md#reference-draft'>Reference Draft</a> used for the 150 days exclusion opportunity started earlier.<br>
        <span class='date'></span>
@@ -102,10 +104,14 @@ rec
     <li class='transition' data-day='-7' data-base='cr' id="to-cr">
       Transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a>, <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> is done<br>
         <span class='date'></span>
+       <p class='echidna'><strong>This transition request needs <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-a-transition-request'>special steps</a> to accommodate publication.</strong></p>
     </li>
     <li class='publication' data-day='-77' data-base='rec' id='cr'>
       <label for='day97'>Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity, start of the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a><br>
        <input type="date" id='input-cr'/> <span class='date'></span>
+       <p class='echidna'><strong>This publication must be done <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-to-echidna'>without the webmaster</a>.</strong></p>
+       <pre class='msg'>
+       </pre>
     </li>
     <li class='exact' data-day='28' data-base='cr' id='comments'>
        <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Deadline for comments</a><br>
@@ -121,7 +127,9 @@ rec
       <label id='day139'>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>Proposed Recommendation</a></label>,
        deadline for the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a> is set<br>
        <input type="date" id='input-pr'/> <span class='date'></span>
-    </li>
+       <pre class='msg'>
+      </pre>
+   </li>
     <li class='exact' data-day='150' data-base='fpwd' id='first-cfe'>
        Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>150 days exclusion opportunity</a><br>
        <span class='date'></span>
@@ -141,7 +149,9 @@ rec
     <li class='publication' data-day='167' data-base='fpwd' id='rec'>
       <label>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-publication'>Recommendation</a><br>
        <input type="date" id='input-rec'/></label> <span class='date'></span>
-    </li>
+       <pre class='msg'>
+      </pre>
+   </li>
   </ul>
 
   <pre id='log'></pre>

@@ -98,13 +98,33 @@
         msg += "\n";
         date = moment(date).add((up)?1:-1, "days");
       }
+      let report = item.querySelector(".msg");
       if (!originalDate.isSame(date)) {
-        log(originalDate.format("YYYY-MM-DD")
+        msg = originalDate.format("YYYY-MM-DD")
           + " didn't work out. Picked instead "
-          + date.format("YYYY-MM-DD") + "\n" + msg);
+          + date.format("YYYY-MM-DD") + "\n" + msg;
+        if (report) {
+          report.textContent = msg;
+          report.style.display = "block";
+        } else {
+          log(msg);
+        }
+      } else {
+        if (report) report.style.display = "none";
       }
       if (publication) {
         item.querySelector("input").value = date.format("YYYY-MM-DD");
+        let echidna = item.querySelector(".echidna");
+        let transEchidna = document.querySelector("#to-" + item.id + " .echidna");
+        if (echidna) {
+          if (!isTuesdayThursday(date)) {
+            echidna.style.display = "block";
+            if (transEchidna) transEchidna.style.display = "block";
+          } else {
+            echidna.style.display = "none";
+            if (transEchidna) transEchidna.style.display = "none";
+          }
+        }
       }
       item.querySelector("span.date").textContent = date.format("dddd, MMMM D YYYY");
       item.momentDate = date;
