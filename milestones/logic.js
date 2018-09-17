@@ -25,7 +25,9 @@
   }
 
   let config = {
-    noFPWD: false
+    noFPWD: false,
+    webmaster: false,
+    debug: false
   }
 
   function convertDate(dateInput) {
@@ -60,7 +62,7 @@
 
   // only Tuesdays and Thursdays, and avoid moratoria
   function forPublication(item, date) {
-    return ((item.id === 'cr' && avoidWeekend(date))
+    return ((item.id === 'cr' && !config.webmaster && avoidWeekend(date))
             || (isTuesdayThursday(date) && avoidMoratorium(date)));
   }
 
@@ -250,6 +252,25 @@
       addFPWD();
     }
   }
+  function removeWebmaster() {
+    trace("Remove Webmaster from publication");
+    config.webmaster = false;
+    onpushstate();
+  }
+  function addWebmaster() {
+    trace("Add Webmaster for publication");
+    config.webmaster = true;
+    onpushstate();
+  }
+  function toggleWebmaster(e) {
+    if (disableChange) return;
+    trace("Toggle webmaster");
+    if (e.target.checked && !config.webmaster) {
+      addWebmaster();
+    } else if (!e.target.checked && config.webmaster){
+      removeWebmaster();
+    }
+  }
   function adjustDates(refInput) {
     trace("Adjust dates");
     let item = refInput;
@@ -301,7 +322,8 @@
 		nodes[i].onchange=changeInput;
 	}
 
-  document.querySelector("input[type=checkbox]").onchange = toggleFPWD;
+  document.querySelector("#noFPWD").onchange = toggleFPWD;
+  document.querySelector("#webmaster").onchange = toggleWebmaster;
 
    // browser history status push
 	 function onpushstate() {
@@ -317,6 +339,14 @@
      if (config.noFPWD) {
        if (query.length > 1) query += "&";
        query+= "noFPWD=true";
+     }
+     if (config.webmaster) {
+      if (query.length > 1) query += "&";
+      query+= "webmaster=true";
+     }
+     if (config.debug) {
+      if (query.length > 1) query += "&";
+      query+= "debug=true";
      }
      if (query.length > 1) {
       query = "?" + query;
@@ -370,14 +400,26 @@
     }
     let init  = getJsonFromUrl();
 
-    let foundARef = false;
-    if (init["noFPWD"] === "true") {
-        document.querySelector("input[type=checkbox]").checked = true;
-        removeFPWD();
-    }
+    let needsRefresh = false; // do we need to trigger onpushstate?
+
     if (init["debug"] !== undefined) {
-        trace = _trace;
+      trace = _trace;
+      config.debug = true;
+      needsRefresh = true;
     }
+
+
+    if (init["noFPWD"] === "true") {
+        document.querySelector("#noFPWD").checked = true;
+        config.noFPWD = true;
+        needsRefresh = true;
+    }
+    if (init["webmaster"] === "true") {
+      document.querySelector("#webmaster").checked = true;
+      config.webmaster = true;
+      needsRefresh = true;
+    }
+    let foundARef = false; // limit to one date in the URL input
     for (var key in init) {
       if (!foundARef) {
 	    	var item = document.getElementById(key);
@@ -387,12 +429,15 @@
             let input = item.querySelector("input");
             input.value = init[key];
             foundARef = true;
-            changeInput({ target: input });
+            changeInput({ target: input }); // triggers onpushstate
           } else {
             log("Invalid date in query parameters");
           }
         }
       }
+    }
+    if (!foundARef && needsRefresh) {
+      onpushstate();
     }
     displayMoratoria();
   }

@@ -28,10 +28,6 @@ In reality, various requirements from the W3C process may introduce delays (deve
   <p>
     The list of upcoming moratorium is available in the <a href="https://www.w3.org/Guide/#current">Guide</a>.
   </p>
-  <p>
-    <input type="checkbox" id="noFPWD" name="noFPWD"/>
-    <label for="noFPWD">Hide the First Public Working Draft constraints</label>
-  </p>
 <!--
 How the days was computed...
 
@@ -158,11 +154,23 @@ rec
 
   <h2>Upcoming Moratoria on Publications</h2>
 
-  <p>The upcoming moratoria on publications are announced on the Chairs mailing list.</p>
+  <p>The upcoming moratoria on publications are announced on the <a href='https://www.w3.org/Search/Mail/Member/search?keywords=&amp;hdr-1-name=subject&amp;hdr-1-query=moratoria&amp;index-grp=Member__FULL+Public__FULL&amp;index-type=t&amp;type-index=chairs'>Chairs mailing list</a>.</p>
 
   <ul id='moratoria-list'>
 
   </ul>
+
+  <h2 id='settings'>Settings</h2>
+  <p>You may tweak the current logic depending on your preferences:</p>
+  <p>
+    <input type="checkbox" id="noFPWD" name="noFPWD"/>
+    <label for="noFPWD">Hide the First Public Working Draft constraints</label>.
+  </p>
+
+  <p>
+    <input type="checkbox" id="webmaster" name="webmaster"/>
+    <label for="webmaster">Always use the W3C webmaster for publication, instead of using the <a href='https://github.com/w3c/echidna/wiki'>automated publication system</a></label>.
+  </p>
 
   <script src='logic.js'>
   </script>
