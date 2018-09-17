@@ -25,7 +25,6 @@
   }
 
   let config = {
-    item: "rec",
     noFPWD: false
   }
 
@@ -48,7 +47,7 @@
   }
 
   // avoid Saturdays and Sundays
-  function inWorkWeek(date) {
+  function avoidWeekend(date) {
     let day = date.day();
     return (day !== 0 && day !== 6);
   }
@@ -56,7 +55,7 @@
   // only Tuesdays and Fridays, and avoid moratoria
   function forPublication(item, date) {
     let day = date.day();
-    return (item.id === 'cr'
+    return ((item.id === 'cr' && avoidWeekend(date))
             || ((day === 2 || day === 4)
                 && avoidMoratorium(date)));
   }
@@ -77,11 +76,13 @@
       let transition = isTransition(item);
       let msg = "";
       while((publication && !forPublication(item, date))
-            || (transition && !inWorkWeek(date))) {
+            || (transition && !avoidWeekend(date))) {
         if (publication) {
           msg += " " + date.format("YYYY-MM-DD") + " is ";
           if (!avoidMoratorium(date)) {
             msg += "in a publication moratorium";
+          } else if (!avoidWeekend(date)) {
+              msg += "in the week end";
           } else {
             msg += "not a Tuesday or a Thursday";
           }
