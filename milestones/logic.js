@@ -52,12 +52,16 @@
     return (day !== 0 && day !== 6);
   }
 
-  // only Tuesdays and Fridays, and avoid moratoria
-  function forPublication(item, date) {
+  // Is it a Thuesday or a Thursday?
+  function isTuesdayThursday(date) {
     let day = date.day();
+    return ((day === 2 || day === 4));
+  }
+
+  // only Tuesdays and Thursdays, and avoid moratoria
+  function forPublication(item, date) {
     return ((item.id === 'cr' && avoidWeekend(date))
-            || ((day === 2 || day === 4)
-                && avoidMoratorium(date)));
+            || (isTuesdayThursday(date) && avoidMoratorium(date)));
   }
 
   // is this date related to a publication?
@@ -83,8 +87,10 @@
             msg += "in a publication moratorium";
           } else if (!avoidWeekend(date)) {
               msg += "in the week end";
-          } else {
+          } else if (!isTuesdayThursday(date)) {
             msg += "not a Tuesday or a Thursday";
+          } else {
+            msg += "isn't good enough somehow. Not sure why... Please report this as a bug."
           }
         } else if (transition) {
           msg += "in the week end";
