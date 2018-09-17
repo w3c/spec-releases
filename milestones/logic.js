@@ -1,6 +1,6 @@
 (function() {
   // For debugging
-  var trace = function () {};
+  let trace = function () {};
 
   function _trace(msg) {
 	   console.log(msg);
@@ -11,8 +11,8 @@
   }
 
   function log(msg) {
-    var pre = document.getElementById("log");
-    var text = pre.textContent;
+    let pre = document.getElementById("log");
+    let text = pre.textContent;
     if (text !== "") {
       text += "\n";
     }
@@ -20,11 +20,11 @@
   }
 
   function clearLog() {
-    var pre = document.getElementById("log");
+    let pre = document.getElementById("log");
     pre.textContent = "";
   }
 
-  var config = {
+  let config = {
     item: "rec",
     noFPWD: false
   }
@@ -35,11 +35,11 @@
 
   // For publication moratoria
   // this is populated later by fetching the moratoria.json
-  var moratoria = [];
+  let moratoria = [];
 
   function avoidMoratorium(date) {
     for (var i = 0; i < moratoria.length; i++) {
-      var range = moratoria[i];
+      let range = moratoria[i];
       if (date.isBetween(range[0], range[1], null, "[]")) {
         return false;
       }
@@ -49,13 +49,13 @@
 
   // avoid Saturdays and Sundays
   function inWorkWeek(date) {
-    var day = date.day();
+    let day = date.day();
     return (day !== 0 && day !== 6);
   }
 
   // only Tuesdays and Fridays, and avoid moratoria
   function forPublication(item, date) {
-    var day = date.day();
+    let day = date.day();
     return (item.id === 'cr'
             || ((day === 2 || day === 4)
                 && avoidMoratorium(date)));
@@ -72,10 +72,10 @@
   }
 
   function updateItem(item, date, up) {
-      var originalDate = date;
-      var publication = isPublication(item);
-      var transition = isTransition(item);
-      var msg = "";
+      let originalDate = date;
+      let publication = isPublication(item);
+      let transition = isTransition(item);
+      let msg = "";
       while((publication && !forPublication(item, date))
             || (transition && !inWorkWeek(date))) {
         if (publication) {
@@ -103,16 +103,16 @@
       item.momentDate = date;
   }
   function adjustDate(item, refItem, up) {
-      var refItemDate = moment(item.momentDate);
-      var diff = item.dataset.day - refItem.dataset.day;
+      let refItemDate = moment(item.momentDate);
+      let diff = item.dataset.day - refItem.dataset.day;
       updateItem(item, refItemDate.add(diff, "days"), up);
   }
 
   // clear all dates
   function clearDates() {
-    var list = document.querySelectorAll("ul#steps li");
+    let list = document.querySelectorAll("ul#steps li");
     for (var index = 0; index < list.length; index++) {
-      var li = list[index];
+      let li = list[index];
       li.momentDate = undefined;
       li.querySelector("span.date").textContent = "";
     }
@@ -124,16 +124,16 @@
 
     // update one Item
     function updateLI(li) {
-        var refDate = document.getElementById(li.dataset.base).momentDate;
+        let refDate = document.getElementById(li.dataset.base).momentDate;
         if (refDate === undefined)
           throw new Error("Can't compute from base " + li.dataset.base);
-        var refItemDate = moment(refDate);
+        let refItemDate = moment(refDate);
         updateItem(li, refItemDate.add(li.dataset.day, "days"), false);
     }
-    var list = document.querySelectorAll("ul#steps li");
+    let list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
-      var li = list[index];
+      let li = list[index];
       if (li.momentDate === undefined && li.dataset.base === 'rec'
           && !li.hasAttribute("hidden")) {
         updateLI(li);
@@ -141,7 +141,7 @@
     }
     // compute all remaining dates
     for (var index = 0; index < list.length; index++) {
-      var li = list[index];
+      let li = list[index];
       if (li.momentDate === undefined
           && !li.hasAttribute("hidden")) {
         updateLI(li);
@@ -150,37 +150,37 @@
 
     // adjust reference draft according to transition request for CR
     if (!noFPWD) {
-      var toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
-      var referenceDraft = document.getElementById("reference-draft").momentDate;
+      let toCR = moment(document.getElementById("to-cr").momentDate).add(-1, "days");
+      let referenceDraft = document.getElementById("reference-draft").momentDate;
       if (referenceDraft.isAfter(toCR)) {
         log("Shifted reference draft last update to be 1 day before CR transition request");
         updateItem(document.getElementById("reference-draft"), toCR, false);
       }
     }
     // adjust transition request for PR according to deadline for comments
-    var commentEnd = moment(document.getElementById("comments").momentDate).add(1, "days");
-    var toPR = document.getElementById("to-pr").momentDate;
+    let commentEnd = moment(document.getElementById("comments").momentDate).add(1, "days");
+    let toPR = document.getElementById("to-pr").momentDate;
     if (toPR.isBefore(commentEnd)) {
       log("Shifted transition request for PR to be 1 day after deadline for comments");
       updateItem(document.getElementById("to-pr"), commentEnd, false);
     }
     // adjust end of AC review according to call for exclusions
-    var acEnd = document.getElementById("ac-review-end").momentDate;
+    let acEnd = document.getElementById("ac-review-end").momentDate;
     if (!noFPWD) {
-      var cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
+      let cfe1 = moment(document.getElementById("first-cfe").momentDate).add(10, "days");
       if (acEnd.isBefore(cfe1)) {
         log("Shifted end of AC review to be 10 days after end of 150 days exclusion opportunity")
         updateItem(document.getElementById("ac-review-end"), cfe1, false);
       }
     }
-    var cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
+    let cfe2 = moment(document.getElementById("second-cfe").momentDate).add(10, "days");
     if (acEnd.isBefore(cfe2)) {
       log("Shifted end of AC review to be 10 days after end of 60 days exclusion opportunity")
       updateItem(document.getElementById("ac-review-end"), cfe2, false);
     }
     // adjust transition request for REC according to end of AC review
     acEnd = moment(document.getElementById("ac-review-end").momentDate).add(1, "days");
-    var toREC = document.getElementById("to-rec").momentDate;
+    let toREC = document.getElementById("to-rec").momentDate;
     if (toREC.isBefore(acEnd)) {
       log("Shifted transition request for REC to be 1 day after end of AC review")
       updateItem(document.getElementById("to-rec"), acEnd, false);
@@ -189,10 +189,10 @@
   function removeFPWD() {
     trace("Remove FPWD dates");
     config.noFPWD = true;
-    var list = document.querySelectorAll("ul#steps li");
+    let list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
-      var li = list[index];
+      let li = list[index];
       if (li.id === 'to-fpwd' || li.id === "fpwd"
           || li.id === "first-cfe" || li.id === "reference-draft") {
         li.setAttribute("hidden", "hidden");
@@ -203,10 +203,10 @@
   function addFPWD() {
     trace("Add FPWD dates");
     config.noFPWD = false;
-    var list = document.querySelectorAll("ul#steps li");
+    let list = document.querySelectorAll("ul#steps li");
     // compute all the dates that are using the REC as a base
     for (var index = 0; index < list.length; index++) {
-      var li = list[index];
+      let li = list[index];
       if (li.id === 'to-fpwd' || li.id === "fpwd"
           || li.id === "first-cfe" || li.id === "reference-draft") {
         li.removeAttribute("hidden");
@@ -225,7 +225,7 @@
   }
   function adjustDates(refInput) {
     trace("Adjust dates");
-    var item = refInput;
+    let item = refInput;
     while (item.nodeName !== "LI") {
       item = item.parentNode;
       if (item === null) throw new Error("Invalid HTML structure");
@@ -233,7 +233,7 @@
     clearLog();
 
     // adjust the reference input date
-    var d;
+    let d;
     if (refInput.value === "") {
         return;
     } else {
@@ -253,15 +253,15 @@
     // (REC uses the fpwd as a base)
     if (item.dataset.base === 'rec') {
       trace("Adjust REC date");
-      var itemRec = document.getElementById("rec");
-      var refItemDate = moment(item.momentDate);
+      let itemRec = document.getElementById("rec");
+      let refItemDate = moment(item.momentDate);
       updateItem(itemRec, refItemDate.add(Math.abs(item.dataset.day), "days"), true);
     }
     tuneDates();
   }
 
 
-  var disableChange = false;
+  let disableChange = false;
   function changeInput(e) {
     if (disableChange) return;
     disableChange = true;
@@ -269,7 +269,7 @@
     disableChange = false;
   }
 
-  var nodes = document.querySelectorAll("input[type=date]");
+  let nodes = document.querySelectorAll("input[type=date]");
 	for (var i = 0; i < nodes.length; i++) {
 		nodes[i].onchange=changeInput;
 	}
@@ -278,10 +278,10 @@
 
    // browser history status push
 	 function onpushstate() {
-     var item = document.getElementById(config.id);
-     var query = "";
+     let item = document.getElementById(config.id);
+     let query = "";
      if (item !== null) {
-       var date = item.momentDate;
+       let date = item.momentDate;
        if (date !== undefined) {
          config.date = date.format("YYYY-MM-DD");
   		   query += item.id + "=" + date.format("YYYY-MM-DD");
@@ -300,7 +300,7 @@
 
    // browser back and forward buttons
    window.onpopstate = function (e) {
-		 var input = document.getElementById(e.state.id).querySelector("input");
+		 let input = document.getElementById(e.state.id).querySelector("input");
      input.value = e.state.date;
      config.noFPWD = e.state.noFPWD;
      changeInput({ target: input });
@@ -312,12 +312,12 @@
    }
 
    function displayMoratoria() {
-    var list = document.getElementById("moratoria-list");
-    var today = moment();
+    let list = document.getElementById("moratoria-list");
+    let today = moment();
     for (var i = 0; i < moratoria.length; i++) {
-      var range = moratoria[i];
+      let range = moratoria[i];
       if (today.isSameOrBefore(range[1])) {
-        var li = document.createElement("li");
+        let li = document.createElement("li");
         li.textContent = "From " + moment(range[0]).format('MMMM Do, YYYY')
           + " to " + moment(range[1]).format('MMMM Do, YYYY')
           + " : " + range[2];
@@ -331,19 +331,19 @@
   function initialize() {
      // #lazyweb
 	   function getJsonFromUrl() {
-       var query = location.search.substr(1);
-       var result = {};
+       let query = location.search.substr(1);
+       let result = {};
        query.split("&").forEach(function(part) {
-        var item = part.split("=");
+        let item = part.split("=");
         if (item[1] !== undefined) {
           result[item[0]] = decodeURIComponent(item[1]);
         }
        });
       return result;
     }
-    var init  = getJsonFromUrl();
+    let init  = getJsonFromUrl();
 
-    var foundARef = false;
+    let foundARef = false;
     if (init["noFPWD"] === "true") {
         document.querySelector("input[type=checkbox]").checked = true;
         removeFPWD();
@@ -355,9 +355,9 @@
       if (!foundARef) {
 	    	var item = document.getElementById(key);
       	if (item !== undefined && item !== null && item.nodeName === "LI") {
-          var m = convertDate(init[key]);
+          let m = convertDate(init[key]);
           if (m.isValid()) {
-            var input = item.querySelector("input");
+            let input = item.querySelector("input");
             input.value = init[key];
             foundARef = true;
             changeInput({ target: input });
