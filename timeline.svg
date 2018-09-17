@@ -89,8 +89,8 @@ aria-labelledby="steps-title">
 
 <g id='pp' transform="translate(15,100)" role="listitem"
 aria-labelledby="pp-title">
-<title id="pp-title">Patent Policy: Call for Exclusions</title>
-<text class='item'><tspan x="-13" y="-5">Patent Policy: 2 Call for Exclusions</tspan></text>
+<title id="pp-title">Patent Policy: Calls for Exclusion</title>
+<text class='item'><tspan x="-13" y="-5">Patent Policy: 2 Calls for Exclusion</tspan></text>
 
 <g role="list">
 <rect role="listitem" width="150" height="5" x="7" y="0" aria-label="Days 7 to 157: first CFE (based on most recent WD)"/>
