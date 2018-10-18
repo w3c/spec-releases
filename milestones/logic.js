@@ -2,6 +2,8 @@
   // For debugging
   let trace = function () {};
 
+  var API_KEY = "sdqupwhg51c0o4ww488w40og4kkog8s";
+
   function _trace(msg) {
 	   console.log(msg);
   }
@@ -336,13 +338,16 @@
   		   query += item.id + "=" + date.format("YYYY-MM-DD");
        }
      }
-     if (config.noFPWD) {
-       if (query.length > 1) query += "&";
-       query+= "noFPWD=true";
-     }
      if (config.webmaster) {
       if (query.length > 1) query += "&";
       query+= "webmaster=true";
+     }
+     if (config.shortname) {
+      if (query.length > 1) query += "&";
+      query+= "shortname="+config.shortname;
+     } else if (config.noFPWD) {
+      if (query.length > 1) query += "&";
+      query+= "noFPWD=true";
      }
      if (config.debug) {
       if (query.length > 1) query += "&";
@@ -355,12 +360,55 @@
 	  	 trace("pushed " +window.location.href);
    }
 
+   function updateShortname(shortname) {
+    trace("New shortname " + shortname);
+    if (shortname) {
+       config.shortname = shortname;
+       removeFPWD();
+     } else {
+       config.shortname = undefined;
+       addFPWD();
+     }
+     onpushstate();
+   }
+
+   function findShortname(s) {
+		if (s && s.length > 2) {
+      let stext = document.getElementById("stext");
+      fetch("https://api.w3.org/specifications/" + s + "?apikey=" + API_KEY).then(res => res.json())
+			 .then(spec => {
+				 if (spec.title === undefined) throw new Error(s + " wasn't found");
+				 var latest = spec["_links"]["latest-version"];
+				 var first = spec["_links"]["first-version"];
+				 if (first === undefined) throw new Error(s + " doesn't have a first version");
+				 return first;
+			 }).then(first => {
+				return fetch(first.href+ "?apikey=" + API_KEY).then(res => res.json());
+			}).then(spec => {
+        stext.textContent = spec.status;
+        updateShortname(s, spec);
+      }).catch(err => {
+        stext.textContent = err.message;
+        updateShortname();
+      });
+    }
+  }
+
+  function shortname(e) {
+		var s = e.target.value;
+    findShortname(s);
+  }
+  document.querySelector("#shortname").oninput = shortname;
+
    // browser back and forward buttons
    window.onpopstate = function (e) {
-		 let input = document.getElementById(e.state.id).querySelector("input");
-     input.value = e.state.date;
+     let input = document.getElementById(e.state.id);
      config.noFPWD = e.state.noFPWD;
-     changeInput({ target: input });
+     if (input !== null) {
+       input = input.querySelector("input");
+       input.value = e.state.date;
+       changeInput({ target: input });
+     }
      if (!config.noFPWD)
       document.querySelector("input[type=checkbox]").checked = true;
      else
@@ -409,15 +457,19 @@
     }
 
 
-    if (init["noFPWD"] === "true") {
-        document.querySelector("#noFPWD").checked = true;
-        config.noFPWD = true;
-        needsRefresh = true;
-    }
     if (init["webmaster"] === "true") {
       document.querySelector("#webmaster").checked = true;
       config.webmaster = true;
       needsRefresh = true;
+    }
+    if (init["shortname"] && init["shortname"].length > 2) {
+      document.querySelector("#shortname").value = init["shortname"];
+      findShortname(init["shortname"]);
+      needsRefresh = true;
+    } else if (init["noFPWD"] === "true") {
+        document.querySelector("#noFPWD").checked = true;
+        removeFPWD();
+        needsRefresh = true;
     }
     let foundARef = false; // limit to one date in the URL input
     for (var key in init) {

@@ -71,7 +71,7 @@ rec
   only-tuesday-thursday
 
   -->
-  <ul id='steps'>
+  <ul id='steps'  aria-live="assertive" aria-atomic="true">
     <li class='transition' data-day='-7' data-base='fpwd' id="to-fpwd">
       Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
        <span class='date'></span>
@@ -96,7 +96,7 @@ rec
        <p class='echidna'><strong>This transition request needs <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-a-transition-request'>special steps</a> to accommodate publication.</strong></p>
     </li>
     <li class='publication' data-day='-77' data-base='rec' id='cr'>
-      <label for='day97'>Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity, start of the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a><br>
+      <label for='day97'>Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy-20040205/#sec-exclusion-with'>60 days exclusion</a> opportunity<br>
        <input type="date" id='input-cr'/> <span class='date'></span>
        <p class='echidna'><strong>This publication must be done <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-to-echidna'>without the webmaster</a>.</strong></p>
        <pre class='msg'>
@@ -114,7 +114,7 @@ rec
     </li>
     <li class='publication' data-day='-35' data-base='rec' id='pr'>
       <label id='day139'>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>Proposed Recommendation</a></label>,
-       deadline for the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a> is set<br>
+       start of the <a href='https://www.w3.org/Consortium/Process/#ACReviewStart'>Advisory Committee Review</a><br>
        <input type="date" id='input-pr'/> <span class='date'></span>
        <pre class='msg'>
       </pre>
@@ -166,6 +166,10 @@ rec
   <p>
     <input type="checkbox" id="webmaster" name="webmaster"/>
     <label for="webmaster">Always use the W3C webmaster for publication, instead of using the <a href='https://github.com/w3c/echidna/wiki'>automated publication system</a></label>.
+  </p>
+
+  <p>
+    You may use a TR <label id="shortnameLabel">shortname</label> to include the history: <input type=text aria-labelledby="shortnameLabel" placeholder="shortname" id="shortname" size="30" minlength="3" maxlength="40" pattern="[-a-zA-Z0-9]{3,40}"> <span id='stext'></span>
   </p>
 
   <script src='logic.js'>
