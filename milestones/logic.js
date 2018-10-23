@@ -28,7 +28,7 @@
 
   let config = {
     noFPWD: false,
-    webmaster: false,
+    nowebmaster: false,
     debug: false
   }
 
@@ -64,7 +64,7 @@
 
   // only Tuesdays and Thursdays, and avoid moratoria
   function forPublication(item, date) {
-    return ((item.id === 'cr' && !config.webmaster && avoidWeekend(date))
+    return ((item.id === 'cr' && config.nowebmaster && avoidWeekend(date))
             || (isTuesdayThursday(date) && avoidMoratorium(date)));
   }
 
@@ -254,23 +254,31 @@
       addFPWD();
     }
   }
-  function removeWebmaster() {
-    trace("Remove Webmaster from publication");
-    config.webmaster = false;
-    onpushstate();
+  function removenowebmaster() {
+    trace("Remove nowebmaster from publication");
+    config.nowebmaster = false;
+    let input = document.getElementById(config.id);
+    if (input !== null)
+      changeInput({ target: input.querySelector("input") });
+    else
+      onpushstate();
   }
-  function addWebmaster() {
-    trace("Add Webmaster for publication");
-    config.webmaster = true;
-    onpushstate();
+  function addnowebmaster() {
+    trace("Add nowebmaster for publication");
+    config.nowebmaster = true;
+    let input = document.getElementById(config.id);
+    if (input !== null)
+      changeInput({ target: input.querySelector("input") });
+    else
+      onpushstate();
   }
-  function toggleWebmaster(e) {
+  function togglenowebmaster(e) {
     if (disableChange) return;
-    trace("Toggle webmaster");
-    if (e.target.checked && !config.webmaster) {
-      addWebmaster();
-    } else if (!e.target.checked && config.webmaster){
-      removeWebmaster();
+    trace("Toggle nowebmaster");
+    if (e.target.checked && !config.nowebmaster) {
+      addnowebmaster();
+    } else if (!e.target.checked && config.nowebmaster){
+      removenowebmaster();
     }
   }
   function adjustDates(refInput) {
@@ -325,10 +333,11 @@
 	}
 
   document.querySelector("#noFPWD").onchange = toggleFPWD;
-  document.querySelector("#webmaster").onchange = toggleWebmaster;
+  document.querySelector("#nowebmaster").onchange = togglenowebmaster;
 
    // browser history status push
 	 function onpushstate() {
+     if (inOnPopState) return;
      let item = document.getElementById(config.id);
      let query = "";
      if (item !== null) {
@@ -338,9 +347,9 @@
   		   query += item.id + "=" + date.format("YYYY-MM-DD");
        }
      }
-     if (config.webmaster) {
+     if (config.nowebmaster) {
       if (query.length > 1) query += "&";
-      query+= "webmaster=true";
+      query+= "nowebmaster=true";
      }
      if (config.shortname) {
       if (query.length > 1) query += "&";
@@ -364,9 +373,11 @@
     trace("New shortname " + shortname);
     if (shortname) {
        config.shortname = shortname;
+       document.querySelector("#noFPWD").checked = false;
        removeFPWD();
      } else {
        config.shortname = undefined;
+       document.querySelector("#noFPWD").checked = true;
        addFPWD();
      }
      onpushstate();
@@ -395,25 +406,28 @@
   }
 
   function shortname(e) {
-		var s = e.target.value;
-    findShortname(s);
+    findShortname(e.target.value);
   }
   document.querySelector("#shortname").oninput = shortname;
 
    // browser back and forward buttons
+   let inOnPopState = false;
    window.onpopstate = function (e) {
+     if (!e.state) return;
      let input = document.getElementById(e.state.id);
      config.noFPWD = e.state.noFPWD;
+     config.nowebmaster = e.state.nowebmaster;
      if (input !== null) {
        input = input.querySelector("input");
        input.value = e.state.date;
+       inOnPopState = true;
        changeInput({ target: input });
+       inOnPopState = false;
      }
-     if (!config.noFPWD)
-      document.querySelector("input[type=checkbox]").checked = true;
-     else
-      document.querySelector("input[type=checkbox]").checked = false;
-  	 trace("popped " +window.location.href);
+
+    document.querySelector("#noFPWD").checked = config.noFPWD;
+    document.querySelector("#nowebmaster").checked = config.nowebmaster;
+  	trace("popped " +window.location.href);
    }
 
    function displayMoratoria() {
@@ -456,11 +470,14 @@
       needsRefresh = true;
     }
 
-
-    if (init["webmaster"] === "true") {
-      document.querySelector("#webmaster").checked = true;
-      config.webmaster = true;
+    trace("init")
+    if (init["nowebmaster"] === "true") {
+      document.querySelector("#nowebmaster").checked = true;
+      config.nowebmaster = true;
       needsRefresh = true;
+    } else {
+      document.querySelector("#nowebmaster").checked = false;
+      config.nowebmaster = false;
     }
     if (init["shortname"] && init["shortname"].length > 2) {
       document.querySelector("#shortname").value = init["shortname"];
@@ -470,6 +487,8 @@
         document.querySelector("#noFPWD").checked = true;
         removeFPWD();
         needsRefresh = true;
+    } else {
+      document.querySelector("#noFPWD").checked = false;
     }
     let foundARef = false; // limit to one date in the URL input
     for (var key in init) {
