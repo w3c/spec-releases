@@ -44,10 +44,10 @@
     for (var i = 0; i < moratoria.length; i++) {
       let range = moratoria[i];
       if (date.isBetween(range[0], range[1], null, "[]")) {
-        return false;
+        return range[2];
       }
     }
-    return true;
+    return null;
   }
 
   // avoid Saturdays and Sundays
@@ -65,7 +65,7 @@
   // only Tuesdays and Thursdays, and avoid moratoria
   function forPublication(item, date) {
     return ((item.id === 'cr' && config.nowebmaster && avoidWeekend(date))
-            || (isTuesdayThursday(date) && avoidMoratorium(date)));
+            || (isTuesdayThursday(date) && (avoidMoratorium(date) === null)));
   }
 
   // is this date related to a publication?
@@ -87,8 +87,9 @@
             || (transition && !avoidWeekend(date))) {
         if (publication) {
           msg += " " + date.format("YYYY-MM-DD") + " is ";
-          if (!avoidMoratorium(date)) {
-            msg += "in a publication moratorium";
+          let moratorium = avoidMoratorium(date);
+          if (moratorium !== null) {
+            msg += "in a publication moratorium (" + moratorium + ")";
           } else if (!avoidWeekend(date)) {
               msg += "in the week end";
           } else if (!isTuesdayThursday(date)) {
