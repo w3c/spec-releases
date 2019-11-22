@@ -72,11 +72,15 @@ rec
 
   -->
   <ul id='steps'  aria-live="assertive" aria-atomic="true">
+    <li class='exact' data-day='-17' data-base='fpwd' id='group_fpwd_decision'>
+      <a href='https://w3c.github.io/charter-drafts/charter-template.html#decisions'>Group Call for Consensus (CfC)</a> to move to First Public Working Draft<br>
+      <span class='date'></span>
+   </li>
     <li class='transition' data-day='-7' data-base='fpwd' id="to-fpwd">
       Transition request to <a href='https://www.w3.org/Guide/transitions?profile=FPWD'>First Public Working Draft</a><br>
        <span class='date'></span>
     </li>
-    <li class='publication' data-day='-167' data-base='rec' id='fpwd'>
+    <li class='publication' data-day='-192' data-base='rec' id='fpwd'>
       <label for='day7'>Publication of the <a href='https://www.w3.org/Consortium/Process/#first-wd'>First Public Working Draft</a></label>, start of the <a href='https://www.w3.org/Consortium/Patent-Policy/#sec-exclusion-with'>150 days exclusion</a> opportunity, request for <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a><br>
        <input type="date" id='input-fpwd'/> <span class='date'></span>
        <pre class='msg'>
@@ -86,16 +90,24 @@ rec
        Last day to set  the <a href='https://github.com/w3c/charter-drafts/blob/gh-pages/draft-states.md#reference-draft'>Reference Draft</a> used for the 150 days exclusion opportunity started earlier.<br>
        <span class='date'></span>
     </li>
-    <li class='exact' data-day='-28' data-base='cr' id="wide-review-comments">
-        Latest date to request <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> of the Working Draft<br>
+    <li class='exact' data-day='-108' data-base='cr' id="wide-review-comments">
+        Latest date to request <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> before Candidate Recommendation (starts a 90 days review period)<br>
           <span class='date'></span>
     </li>
+    <li class='exact' data-day='-18' data-base='cr' id="deadline-wide-review-comments">
+      Deadline for <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a><br>
+        <span class='date'></span>
+  </li>
+  <li class='exact' data-day='-17' data-base='cr' id='group_cr_decision'>
+      <a href='https://w3c.github.io/charter-drafts/charter-template.html#decisions'>Group Call for Consensus (CfC)</a> to move to Candidate Recommendation, <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> is done<br>
+      <span class='date'></span>
+   </li>
     <li class='transition' data-day='-7' data-base='cr' id="to-cr">
-      Transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a>, <a href='https://www.w3.org/Consortium/Process/#wide-review'>wide review</a> is done<br>
+      Transition request to <a href='https://www.w3.org/Guide/transitions?profile=CR&amp;cr=new'>Candidate Recommendation</a><br>
         <span class='date'></span>
        <p class='echidna'><strong>This transition request needs <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-a-transition-request'>special steps</a> to accommodate publication.</strong></p>
     </li>
-    <li class='publication' data-day='-77' data-base='rec' id='cr'>
+    <li class='publication' data-day='-80' data-base='rec' id='cr'>
       <label for='day97'>Publication of the <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Candidate Recommendation</a></label>, start of a <a href='https://www.w3.org/Consortium/Patent-Policy/#sec-exclusion-with'>60 days exclusion</a> opportunity<br>
        <input type="date" id='input-cr'/> <span class='date'></span>
        <p class='echidna'><strong>This publication must be done <a href='https://github.com/w3c/echidna/wiki/CR-publication-workflow#request-to-echidna'>without the webmaster</a>.</strong></p>
@@ -106,7 +118,11 @@ rec
        <a href='https://www.w3.org/Consortium/Process/#candidate-rec'>Deadline for comments</a><br>
        <span class='date'></span>
     </li>
-    <li class='transition' data-day='-7' data-base='pr' id="to-pr">
+    <li class='exact' data-day='-17' data-base='pr' id='group_pr_decision'>
+      <a href='https://w3c.github.io/charter-drafts/charter-template.html#decisions'>Group Call for Consensus (CfC)</a> to move to Proposed Recommendation<br>
+      <span class='date'></span>
+   </li>
+   <li class='transition' data-day='-7' data-base='pr' id="to-pr">
       Transition request to <a href='https://www.w3.org/Guide/transitions?profile=PR'>Proposed Recommendation</a>,
        showing <a href='https://www.w3.org/Consortium/Process/#implementation-experience'>adequate implementation experience</a>
        <br>
@@ -120,11 +136,11 @@ rec
       </pre>
    </li>
     <li class='exact' data-day='150' data-base='fpwd' id='first-cfe'>
-       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>150 days exclusion opportunity</a><br>
+       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>150 days exclusion opportunity</a> started from First Public Wording Draft<br>
        <span class='date'></span>
     </li>
     <li class='exact' data-day='60' data-base='cr' id='second-cfe'>
-       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>60 days exclusion opportunity</a><br>
+       Last day of the <a href='https://www.w3.org/Consortium/Process/#rec-pr'>60 days exclusion opportunity</a> started from Candidate Recommendation<br>
        <span class='date'></span>
     </li>
     <li class='exact' data-day='28' data-base='pr' id="ac-review-end">
@@ -135,7 +151,7 @@ rec
       <label>Transition request to <a href='https://www.w3.org/Guide/transitions?profile=REC&amp;rec=new'>Recommendation</a><br>
        <span class='date'></span>
     </li>
-    <li class='publication' data-day='167' data-base='fpwd' id='rec'>
+    <li class='publication' data-day='182' data-base='fpwd' id='rec'>
       <label>Publication of the <a href='https://www.w3.org/Consortium/Process/#rec-publication'>Recommendation</a><br>
        <input type="date" id='input-rec'/></label> <span class='date'></span>
        <pre class='msg'>
@@ -166,6 +182,25 @@ rec
   <p>
     <input type="checkbox" id="nowebmaster" name="webmaster"/>
     <label for="nowebmaster">Don't use the W3C webmaster for CR publications, and use the <a href='https://github.com/w3c/echidna/wiki'>automated publication system</a> instead</label>.
+  </p>
+  <p>
+    <select id='comment_weeks' name='comment_weeks' aria-labelledby="comment_weeksLabel">
+      <option value="0" selected="selected">0</option>
+      <option value="1">1</option>
+	    <option value="2">2</option>
+		  <option value="3">3</option>
+	    <option value="4">4</option>
+	    <option value="5">5</option>
+	    <option value="6">6</option>
+	    <option value="7">7</option>
+	    <option value="8">8</option>
+	    <option value="8">9</option>
+	    <option value="10">10</option>
+	    <option value="11">11</option>
+	    <option value="12">12</option>
+	    </select>
+
+    <label id='comment_weeksLabel' for="comment_weeks">weeks to address wide review comments after the wide review deadline before issuing a Group Call for Consensus</label>.
   </p>
 
   <p>

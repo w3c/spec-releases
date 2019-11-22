@@ -8,7 +8,8 @@
 	   console.log(msg);
   }
 
-  if (window.location.href.includes("file:")) {
+  if (window.location.href.includes("file:")
+     || window.location.href.includes("localhost")) {
     trace = _trace;
   }
 
@@ -29,7 +30,8 @@
   let config = {
     noFPWD: false,
     nowebmaster: false,
-    debug: false
+    debug: false,
+    comments: 0
   }
 
   function convertDate(dateInput) {
@@ -137,6 +139,7 @@
   function adjustDate(item, refItem, up) {
       let refItemDate = moment(item.momentDate);
       let diff = item.dataset.day - refItem.dataset.day;
+      trace("diff is " + diff);
       updateItem(item, refItemDate.add(diff, "days"), up);
   }
 
@@ -230,6 +233,8 @@
         li.setAttribute("hidden", "hidden");
       }
     }
+    clearDates();
+
     onpushstate();
   }
   function addFPWD() {
@@ -282,6 +287,36 @@
       removenowebmaster();
     }
   }
+  function modifyBaseDates() {
+    function modifyElement(id) {
+      let elt = document.getElementById(id);
+      if (!elt.comments) elt.comments = 0;
+      elt.setAttribute("data-day",
+         Number.parseInt(elt.dataset.day)
+         + (elt.comments * 7)
+         - (config.comments * 7));
+         elt.comments = config.comments;
+      trace("Adjust base date for " + id + " to be " + elt.dataset.day
+         + " days from REC (removing " + config.comments + " weeks)");
+    }
+    modifyElement("cr");
+    modifyElement("fpwd");
+  }
+  function adjustCommentWeeks(e) {
+    trace("Adjust comment weeks");
+    let weeks = Number.parseInt(e.target.value);
+    if (weeks < 0 || Number.isNaN(weeks)) weeks = 0;
+    trace("Use " + weeks + " weeks to address comments");
+    document.querySelector("#comment_weeks").value = weeks;
+    config.comments = weeks;
+    // take into those weeks:
+
+    onpushstate(); // reinitialize window.location
+    modifyBaseDates();
+    initialize(); // hard reset
+  }
+  document.querySelector("#comment_weeks").oninput = adjustCommentWeeks;
+
   function adjustDates(refInput) {
     trace("Adjust dates");
     let item = refInput;
@@ -351,6 +386,10 @@
      if (config.nowebmaster) {
       if (query.length > 1) query += "&";
       query+= "nowebmaster=true";
+     }
+     if (config.comments > 0) {
+      if (query.length > 1) query += "&";
+      query+= "comments="+config.comments;
      }
      if (config.shortname) {
       if (query.length > 1) query += "&";
@@ -479,6 +518,14 @@
     } else {
       document.querySelector("#nowebmaster").checked = false;
       config.nowebmaster = false;
+    }
+    if (init["comments"]) {
+      let weeks = Number.parseInt(init["comments"]);
+      if (weeks < 0 || Number.isNaN(weeks)) weeks = 0;
+      document.querySelector("#comment_weeks").value = weeks;
+      config.comments = weeks;
+      modifyBaseDates();
+      needsRefresh = true;
     }
     if (init["shortname"] && init["shortname"].length > 2) {
       document.querySelector("#shortname").value = init["shortname"];
