@@ -2,8 +2,6 @@
   // For debugging
   let trace = function () {};
 
-  var API_KEY = "sdqupwhg51c0o4ww488w40og4kkog8s";
-
   function _trace(msg) {
 	   console.log(msg);
   }
@@ -426,7 +424,7 @@
    function findShortname(s) {
 		if (s && s.length > 2) {
       let stext = document.getElementById("stext");
-      fetch("https://api.w3.org/specifications/" + s + "?apikey=" + API_KEY).then(res => res.json())
+      fetch("https://api.w3.org/specifications/" + s).then(res => res.json())
 			 .then(spec => {
 				 if (spec.title === undefined) throw new Error(s + " wasn't found");
 				 var latest = spec["_links"]["latest-version"];
@@ -434,7 +432,7 @@
 				 if (first === undefined) throw new Error(s + " doesn't have a first version");
 				 return first;
 			 }).then(first => {
-				return fetch(first.href+ "?apikey=" + API_KEY).then(res => res.json());
+				return fetch(first.href).then(res => res.json());
 			}).then(spec => {
         stext.textContent = spec.status;
         updateShortname(s, spec);
