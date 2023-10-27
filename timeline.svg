@@ -10,7 +10,7 @@ text.label { font-size: 5px; fill:white; text-anchor:middle;}
 text.title { font-size: 7.5px; text-anchor:middle;}
 text.day { font-size: 2.5px;fill:#89a02c; text-anchor:middle;}
 text.item { font-size:3.75px; }
-#director-transitions, #director-transitions text.item { fill:#ff6600; }
+#w3c-transitions, #w3c-transitions text.item { fill:#ff6600; }
 #ac-review, #ac-review text.item { fill:#ff9955; }
 #steps, #steps text.item { fill:#0000ff; }
 #pp, #pp text.item { fill:#ff2a2a; }
@@ -29,16 +29,16 @@ text.item { font-size:3.75px; }
 <text class='day'><tspan x="174" y="-0.5">174</tspan></text>
 </g>
 
-<g id='director-transitions' transform="translate(15,35)" role="listitem"
-aria-labelledby="director-transitions-title">
-<title id="director-transitions-title">Director transitions</title>
-<text class='item'><tspan x="-13" y="-5">Director transitions: one week each</tspan></text>
+<g id='w3c-transitions' transform="translate(15,35)" role="listitem"
+aria-labelledby="w3c-transitions-title">
+<title id="w3c-transitions-title">Team verifications</title>
+<text class='item'><tspan x="-13" y="-5">Team verifications: one week each</tspan></text>
 
 <g role="list">
-<rect role="listitem" width="7" height="5" x="0" y="0" aria-label="Days 1 to 7: Director approves transition to FPWD"/>
-<rect role="listitem" width="7" height="5" x="90" y="0" aria-label="Days 90 to 97: Director approves transition to CR"/>
-<rect role="listitem" width="7" height="5" x="132" y="0" aria-label="Days 132 to 139: Director approves transition to PR"/>
-<rect role="listitem" width="7" height="5" x="167" y="0" aria-label="Days 167 to 174: Director approves transition to Rec"/>
+<rect role="listitem" width="7" height="5" x="0" y="0" aria-label="Days 1 to 7: Team verification to FPWD"/>
+<rect role="listitem" width="7" height="5" x="90" y="0" aria-label="Days 90 to 97: Team verification to CR"/>
+<rect role="listitem" width="7" height="5" x="132" y="0" aria-label="Days 132 to 139: Team verification to PR"/>
+<rect role="listitem" width="7" height="5" x="167" y="0" aria-label="Days 167 to 174: Team verification to Rec"/>
 </g>
 
 <text aria-hidden="true" class='day'><tspan x="0" y="-0.5">1</tspan></text>
