@@ -297,7 +297,8 @@
       trace("Adjust base date for " + id + " to be " + elt.dataset.day
          + " days from REC (removing " + config.comments + " weeks)");
     }
-    modifyElement("cr");
+    document.getElementById("comment_weeks_wr").textContent = config.comments;
+    modifyElement("deadline-wide-review-comments");
     modifyElement("fpwd");
   }
   function adjustCommentWeeks(e) {
