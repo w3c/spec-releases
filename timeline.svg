@@ -17,14 +17,14 @@ text.item { font-size:3.75px; }
 </style>
 
 <g>
-<text class='title' role="heading" aria-level="2"><tspan x="100" y="7">174 days to W3C Recommendation</tspan></text>
+<text class='title' role="heading" aria-level="2"><tspan x="100" y="7">DO NOT USE (obsoleted)</tspan></text>
 
 <g role="list">
 
 <g aria-hidden="true" id='w3c-recommendation' transform="translate(15,10)">
 <title id='w3c-recommendation-title'>Day 1 to Day 174 to do a W3C Recommendation</title>
 <rect style="fill:black;" width="174" height="10" aria-labelledby="w3c-recommendation-title" />
-<text class='label'><tspan x="87" y="7">W3C Recommendation track</tspan></text>
+<text class='label'><tspan x="87" y="7">W3C Recommendation track (prior to 2025)</tspan></text>
 <text class='day'><tspan x="0" y="-0.5">1</tspan></text>
 <text class='day'><tspan x="174" y="-0.5">174</tspan></text>
 </g>
